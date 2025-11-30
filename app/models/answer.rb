@@ -32,3 +32,4 @@ class Answer < ApplicationRecord
   def remove_vote(user)
     votes.where(user: user).destroy_all
   end
+end
