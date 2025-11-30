@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>役一覧｜GeekPoker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    :root {
+      --bg-dark: #020617;
+      --accent: #facc15;
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans JP', system-ui;
+      background: radial-gradient(circle at top, #064e3b 0, #020617 55%, #020617 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+    .page { max-width: 1100px; margin: 0 auto; padding: 16px 12px 40px; }
+    .header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 16px; border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.4);
+      backdrop-filter: blur(16px);
+      margin-bottom: 22px;
+    }
+    .logo { display: flex; align-items: center; gap: 8px; font-family: 'Playfair Display', serif; }
+    .logo-icon { width: 24px; height: 24px; border-radius: 7px; border: 2px solid var(--accent); display:flex; align-items:center; justify-content:center; background: radial-gradient(circle at top, #facc15, #b45309); color:#111827; font-size: 14px; }
+    .nav { display: flex; gap: 10px; font-size: 12px; }
+    .nav a { padding: 5px 10px; border-radius: 999px; color: var(--text-muted); border: 1px solid transparent; }
+    .nav a:hover { border-color: rgba(148,163,184,0.7); color: var(--text-main); }
+    .nav a.nav-primary { background: var(--accent); color: #111827; font-weight: 700; border-color: transparent; }
+
+    .hero {
+      margin-bottom: 28px;
+      padding: 18px 20px 20px;
+      border-radius: 24px;
+      background: radial-gradient(circle at top left, rgba(250,204,21,0.12), rgba(15,23,42,0.96));
+      border: 1px solid rgba(148,163,184,0.5);
+      box-shadow: 0 20px 50px rgba(15,23,42,0.9);
+    }
+    .hero-title { font-size: 22px; margin-bottom: 6px; }
+    .hero-title span { color: var(--accent); }
+    .hero-lead { font-size: 13px; color: var(--text-muted); }
+
+    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:14px; }
+    .hand-card { padding: 14px 14px 16px; border-radius:18px; background: rgba(15,23,42,0.96); border:1px solid rgba(148,163,184,0.6); box-shadow:0 14px 40px rgba(15,23,42,0.9); font-size:12px; }
+    .hand-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+    .hand-name { font-weight:700; }
+    .hand-rank { font-size:11px; color:var(--accent); }
+    .hand-cards { display:flex; gap:4px; margin-top:4px; margin-bottom:4px; }
+    .card-mini { width:26px; height:34px; border-radius:5px; background:#e5e7eb; display:flex; align-items:center; justify-content:center; font-size:11px; color:#111827; box-shadow:0 2px 4px rgba(15,23,42,0.9); }
+    .card-mini.red { color:#b91c1c; }
+    .hand-text { font-size:11px; color:var(--text-muted); }
+
+    .video-block { margin-top: 22px; padding: 14px 16px; border-radius: 18px; background: radial-gradient(circle at top, rgba(56,189,248,0.12), rgba(15,23,42,0.98)); border:1px solid rgba(59,130,246,0.6); }
+    .video-label { font-size:12px; margin-bottom:4px; display:flex; align-items:center; gap:6px; }
+    .video-label i { color:#38bdf8; }
+    .video-frame { position:relative; padding-top:56.25%; border-radius:14px; overflow:hidden; background:#020617; }
+    .video-frame iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <a href="/" class="logo">
+        <div class="logo-icon"><i class="fas fa-diamond"></i></div>
+        <div>
+          <div style="font-size: 12px;">GeekPoker</div>
+          <div style="font-size: 10px; color: var(--text-muted);">Texas Hold'em Guide</div>
+        </div>
+      </a>
+      <nav class="nav">
+        <a href="/" >ホーム</a>
+        <a href="/play">プレイ</a>
+        <a href="/rules">ルール</a>
+        <a href="/hands" class="nav-primary">役一覧</a>
+        <a href="/start">始め方</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <h1 class="hero-title"><span>役の強さ</span> を一目で確認</h1>
+      <p class="hero-lead">ポーカーは「どの形がどれくらい強いか」をざっくり覚えるだけでも、かなりプレイしやすくなります。このページでは、代表的な役をイラスト感覚で並べました。</p>
+    </section>
+
+    <section class="section">
+      <div class="grid">
+        <div class="hand-card">
+          <div class="hand-header">
+            <div class="hand-name">ロイヤルフラッシュ</div>
+            <div class="hand-rank">最強</div>
+          </div>
+          <div class="hand-cards">
+            <div class="card-mini red">10♥</div>
+            <div class="card-mini red">J♥</div>
+            <div class="card-mini red">Q♥</div>
+            <div class="card-mini red">K♥</div>
+            <div class="card-mini red">A♥</div>
+          </div>
+          <div class="hand-text">同じスートの 10〜A が一直線に並んだ、最強の役です。めったに出ませんが、「これが出たら無敵」くらいのイメージでOKです。</div>
+        </div>
+
+        <div class="hand-card">
+          <div class="hand-header">
+            <div class="hand-name">ストレートフラッシュ</div>
+            <div class="hand-rank">とても強い</div>
+          </div>
+          <div class="hand-cards">
+            <div class="card-mini">5♠</div>
+            <div class="card-mini">6♠</div>
+            <div class="card-mini">7♠</div>
+            <div class="card-mini">8♠</div>
+            <div class="card-mini">9♠</div>
+          </div>
+          <div class="hand-text">同じスートで5枚が連続している形。ロイヤルフラッシュ以外のストレートフラッシュを指します。</div>
+        </div>
+
+        <div class="hand-card">
+          <div class="hand-header">
+            <div class="hand-name">フォーカード</div>
+            <div class="hand-rank">とても強い</div>
+          </div>
+          <div class="hand-cards">
+            <div class="card-mini">9♣</div>
+            <div class="card-mini">9♦</div>
+            <div class="card-mini">9♥</div>
+            <div class="card-mini">9♠</div>
+            <div class="card-mini red">K♥</div>
+          </div>
+          <div class="hand-text">同じ数字が4枚そろった形。「○のフォーカード」と呼びます。</div>
+        </div>
+
+        <div class="hand-card">
+          <div class="hand-header">
+            <div class="hand-name">フルハウス</div>
+            <div class="hand-rank">強い</div>
+          </div>
+          <div class="hand-cards">
+            <div class="card-mini">K♣</div>
+            <div class="card-mini">K♦</div>
+            <div class="card-mini">K♥</div>
+            <div class="card-mini">5♣</div>
+            <div class="card-mini">5♦</div>
+          </div>
+          <div class="hand-text">スリーカード + ワンペアが同時にそろった形です。</div>
+        </div>
+
+        <div class="hand-card">
+          <div class="hand-header">
+            <div class="hand-name">フラッシュ</div>
+            <div class="hand-rank">そこそこ強い</div>
+          </div>
+          <div class="hand-cards">
+            <div class="card-mini red">2♥</div>
+            <div class="card-mini red">7♥</div>
+            <div class="card-mini red">9♥</div>
+            <div class="card-mini red">J♥</div>
+            <div class="card-mini red">K♥</div>
+          </div>
+          <div class="hand-text">同じスートが5枚そろった形。数字はバラバラでも構いません。</div>
+        </div>
+
+        <div class="hand-card">
+          <div class="hand-header">
+            <div class="hand-name">ストレート</div>
+            <div class="hand-rank">そこそこ強い</div>
+          </div>
+          <div class="hand-cards">
+            <div class="card-mini">4♣</div>
+            <div class="card-mini">5♦</div>
+            <div class="card-mini">6♥</div>
+            <div class="card-mini">7♠</div>
+            <div class="card-mini">8♦</div>
+          </div>
+          <div class="hand-text">スートはバラバラでもよいので、数字が5連続になっている形です。</div>
+        </div>
+
+        <div class="hand-card">
+          <div class="hand-header">
+            <div class="hand-name">スリーカード</div>
+            <div class="hand-rank">中くらい</div>
+          </div>
+          <div class="hand-cards">
+            <div class="card-mini">Q♣</div>
+            <div class="card-mini">Q♦</div>
+            <div class="card-mini">Q♥</div>
+            <div class="card-mini">3♠</div>
+            <div class="card-mini">8♦</div>
+          </div>
+          <div class="hand-text">同じ数字が3枚そろった形。「○のスリーカード」と呼びます。</div>
+        </div>
+
+        <div class="hand-card">
+          <div class="hand-header">
+            <div class="hand-name">ツーペア</div>
+            <div class="hand-rank">中くらい</div>
+          </div>
+          <div class="hand-cards">
+            <div class="card-mini">J♣</div>
+            <div class="card-mini">J♦</div>
+            <div class="card-mini">4♥</div>
+            <div class="card-mini">4♠</div>
+            <div class="card-mini">9♦</div>
+          </div>
+          <div class="hand-text">ペアが2組できている形です。</div>
+        </div>
+
+        <div class="hand-card">
+          <div class="hand-header">
+            <div class="hand-name">ワンペア</div>
+            <div class="hand-rank">やや弱い</div>
+          </div>
+          <div class="hand-cards">
+            <div class="card-mini">A♣</div>
+            <div class="card-mini">A♦</div>
+            <div class="card-mini">7♥</div>
+            <div class="card-mini">9♠</div>
+            <div class="card-mini">3♦</div>
+          </div>
+          <div class="hand-text">同じ数字が2枚だけそろった形。テキサスホールデムでは、これでも十分勝てる場面があります。</div>
+        </div>
+      </div>
+
+      <div class="video-block">
+        <div class="video-label"><i class="fas fa-play-circle"></i><span>映像で役の強さをざっくり確認する</span></div>
+        <div class="video-frame">
+          <!-- あとであなたの動画URLに差し替えられるようにダミーURLを入れておきます -->
+          <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Poker Hands" allowfullscreen></iframe>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

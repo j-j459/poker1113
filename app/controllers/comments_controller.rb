@@ -3,14 +3,12 @@ class CommentsController < ApplicationController
 
     def create
       chase = Chase.find(params[:chase_id])
-      comment = chase.comments.build(comment_params) #buildを使い、contentとchase_idの二つを同時に代入
+      comment = chase.comments.build(comment_params)
       comment.user_id = current_user.id
       if comment.save
-        flash[:success] = "コメントしました"
-        redirect_back(fallback_location: root_path) #直前のページにリダイレクト
+        redirect_to chase, notice: "コメントしました"
       else
-        flash[:success] = "コメントできませんでした"
-        redirect_back(fallback_location: root_path) #直前のページにリダイレクト
+        redirect_to chase, alert: "コメントできませんでした"
       end
     end
   

@@ -1,0 +1,91 @@
+<div class="game-modes">
+  <div class="game-mode-card" data-game-mode="texas_holdem">
+    <div class="game-mode-icon">♠️</div>
+    <h3 class="game-mode-title">テキサスホールデム</h3>
+    <p class="game-mode-description">
+      最も人気のあるポーカーのスタイル。
+      2枚のホールカードと5枚のコミュニティカードで最強の役を作ります。
+    </p>
+    <%= form_with model: @game_session, url: poker_games_path, local: true, class: "game-start-form" do |f| %>
+      <%= f.hidden_field :game_mode, value: 'texas_holdem' %>
+      <%= f.submit "プレイする", class: "btn-play" %>
+    <% end %>
+  </div>
+
+  <div class="game-mode-card" data-game-mode="omaha">
+    <div class="game-mode-icon">♥️</div>
+    <h3 class="game-mode-title">オマハ</h3>
+    <p class="game-mode-description">
+      4枚のホールカードが配られ、そのうち2枚と3枚のコミュニティカードで役を作ります。
+    </p>
+    <%= form_with model: @game_session, url: poker_games_path, local: true, class: "game-start-form" do |f| %>
+      <%= f.hidden_field :game_mode, value: 'omaha' %>
+      <%= f.submit "近日公開", class: "btn-play", disabled: true %>
+    <% end %>
+  </div>
+
+  <div class="game-mode-card" data-game-mode="tournament">
+    <div class="game-mode-icon">♦️</div>
+    <h3 class="game-mode-title">トーナメント</h3>
+    <p class="game-mode-description">
+      最後の1人になるまで戦い抜くトーナメント形式。
+      チップがなくなったらその時点で敗退です。
+    </p>
+    <%= form_with model: @game_session, url: poker_games_path, local: true, class: "game-start-form" do |f| %>
+      <%= f.hidden_field :game_mode, value: 'tournament' %>
+      <%= f.submit "近日公開", class: "btn-play", disabled: true %>
+    <% end %>
+  </div>
+</div>
+
+<div class="game-stats">
+  <div class="stat-card">
+    <div class="stat-value">1,000+</div>
+    <div class="stat-label">プレイヤー</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value">10,000+</div>
+    <div class="stat-label">ゲームプレイ</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value">99.9%</div>
+    <div class="stat-label">満足度</div>
+  </div>
+</div>
+
+<div class="tutorial-container">
+  <h3>ゲームの遊び方</h3>
+  <ol>
+    <li>ゲームモードを選択してください</li>
+    <li>「プレイする」ボタンをクリックしてゲームを開始します</li>
+    <li>カードが配られ、ゲームが始まります</li>
+    <li>ベット、コール、レイズ、フォールドなどのアクションを選択できます</li>
+    <li>最強の役を作って勝利を目指しましょう！</li>
+  </ol>
+</div>
+
+<style>
+  .tutorial-container {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 30px;
+    color: #fff;
+  }
+
+  .tutorial-container h3 {
+    color: #ffd700;
+    margin-top: 0;
+    margin-bottom: 15px;
+  }
+
+  .tutorial-container ol {
+    padding-left: 20px;
+    margin: 0;
+  }
+
+  .tutorial-container li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+</style>

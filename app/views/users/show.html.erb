@@ -1,17 +1,30 @@
-<h1>users#show</h1>
+
 <p>名前 : <%= @user.name %></p>
 <p>メールアドレス : <%= @user.email %></p>
-<p>プロフィール : <%= @user.profile %></p>
 
-<% if current_user.id == @user.id %>
-  <%= link_to "編集する", edit_user_registration_path %>
-<% end %>
+<div class=ei>
+<p>プロフィール : <%= @user.profile %></p>
+<%= link_to "編集する", edit_user_registration_path %>
+</div>
 
 <h2>ユーザーの投稿一覧</h2>
 <% @user.chases.each do |t| %>
   <%= t.user.name %>
   <%= t.body %>
+  <%= t.ace %>
+  <%= t.king %>
+  <%= t.queen %>
+  <%= t.jack %>
+  <%= t.ten %>
+  <%= t.nine %>
+  <%= t.eight %>
+  <%= t.seven %>
+  <%= t.six %>
+
+  <%= link_to "詳しく見る", chase_path(t.id) %>
+  <%= link_to "編集する", edit_chase_path(t.id) %>
+  <%= button_to "削除する", chase_path(t.id), method: :delete %>
 <% end %>
 
-<%= link_to "一覧に戻る", chases_path %>
-<%= render 'relationships/follow_button', user: @user %>
+
+</div>

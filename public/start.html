@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ポーカーの始め方｜GeekPoker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    :root {
+      --bg-dark: #020617;
+      --accent: #facc15;
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans JP', system-ui;
+      background: radial-gradient(circle at top, #064e3b 0, #020617 55%, #020617 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+    .page { max-width: 1100px; margin: 0 auto; padding: 16px 12px 40px; }
+    .header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 16px; border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.4);
+      backdrop-filter: blur(16px);
+      margin-bottom: 22px;
+    }
+    .logo { display: flex; align-items: center; gap: 8px; font-family: 'Playfair Display', serif; }
+    .logo-icon { width: 24px; height: 24px; border-radius: 7px; border: 2px solid var(--accent); display:flex; align-items:center; justify-content:center; background: radial-gradient(circle at top, #facc15, #b45309); color:#111827; font-size: 14px; }
+    .nav { display: flex; gap: 10px; font-size: 12px; }
+    .nav a { padding: 5px 10px; border-radius: 999px; color: var(--text-muted); border: 1px solid transparent; }
+    .nav a:hover { border-color: rgba(148,163,184,0.7); color: var(--text-main); }
+    .nav a.nav-primary { background: var(--accent); color: #111827; font-weight: 700; border-color: transparent; }
+
+    .hero {
+      margin-bottom: 28px;
+      padding: 18px 20px 20px;
+      border-radius: 24px;
+      background: radial-gradient(circle at top left, rgba(250,204,21,0.12), rgba(15,23,42,0.96));
+      border: 1px solid rgba(148,163,184,0.5);
+      box-shadow: 0 20px 50px rgba(15,23,42,0.9);
+    }
+    .hero-title { font-size: 22px; margin-bottom: 6px; }
+    .hero-title span { color: var(--accent); }
+    .hero-lead { font-size: 13px; color: var(--text-muted); }
+
+    .section { margin-top: 24px; padding: 18px 20px 20px; border-radius: 20px; background: rgba(15,23,42,0.96); border:1px solid rgba(148,163,184,0.5); box-shadow:0 16px 40px rgba(15,23,42,0.9); font-size:13px; }
+    .section-title { font-size: 15px; margin-bottom: 8px; display:flex; align-items:center; gap:6px; }
+    .section-title i { color: var(--accent); }
+    .step-list { list-style:none; margin-top: 6px; }
+    .step-item { display:flex; gap:10px; padding:8px 0; }
+    .step-num { width:22px; height:22px; border-radius:999px; background:rgba(15,23,42,0.9); border:1px solid rgba(148,163,184,0.8); display:flex; align-items:center; justify-content:center; font-size:11px; color:var(--accent); margin-top:2px; }
+    .step-main { flex:1; }
+    .step-main-title { font-weight:600; margin-bottom:2px; }
+    .step-main-text { font-size:12px; color:var(--text-muted); }
+
+    .tip-box { margin-top: 10px; padding: 10px 12px; border-radius: 14px; background: rgba(15,23,42,0.98); border:1px dashed rgba(148,163,184,0.8); font-size:12px; color:var(--text-muted); }
+
+    .video-block { margin-top: 18px; padding: 14px 16px; border-radius: 18px; background: radial-gradient(circle at top, rgba(56,189,248,0.12), rgba(15,23,42,0.98)); border:1px solid rgba(59,130,246,0.6); }
+    .video-label { font-size:12px; margin-bottom:4px; display:flex; align-items:center; gap:6px; }
+    .video-label i { color:#38bdf8; }
+    .video-frame { position:relative; padding-top:56.25%; border-radius:14px; overflow:hidden; background:#020617; }
+    .video-frame iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <a href="/" class="logo">
+        <div class="logo-icon"><i class="fas fa-diamond"></i></div>
+        <div>
+          <div style="font-size: 12px;">GeekPoker</div>
+          <div style="font-size: 10px; color: var(--text-muted);">Texas Hold'em Guide</div>
+        </div>
+      </a>
+      <nav class="nav">
+        <a href="/" >ホーム</a>
+        <a href="/play">プレイ</a>
+        <a href="/rules">ルール</a>
+        <a href="/hands">役一覧</a>
+        <a href="/start" class="nav-primary">始め方</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <h1 class="hero-title">オンラインで<span>ポーカーを始める</span>までの3ステップ</h1>
+      <p class="hero-lead">実際のお金を使わなくても、無料テーブルや友達同士の卓から気軽に始められます。このページでは、スタートまでのイメージだけサクッとつかみましょう。</p>
+    </section>
+
+    <section class="section">
+      <div class="section-title"><i class="fas fa-list-ol"></i><span>ざっくり3ステップ</span></div>
+      <ul class="step-list">
+        <li class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-main">
+            <div class="step-main-title">ルールと役を軽くチェックする</div>
+            <div class="step-main-text">まずはこのサイトの「ルール」「役一覧」を一度眺めて、なんとなく流れと役の強さをイメージしておきます。完璧に覚えなくて大丈夫です。</div>
+          </div>
+        </li>
+        <li class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-main">
+            <div class="step-main-title">/play で1vsCPUのデモを触ってみる</div>
+            <div class="step-main-text">このサイト内の「プレイ」ページでは、あなた vs CPU で1ハンドずつテキサスホールデムを体験できます。ベットしてみたり、あえてフォールドしてみたりして感覚をつかみましょう。</div>
+          </div>
+        </li>
+        <li class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-main">
+            <div class="step-main-title">実際のサービスでフリーテーブルに参加する</div>
+            <div class="step-main-text">慣れてきたら、実際のオンラインサービスで「無料プレイ」「練習テーブル」などに参加してみると、一気に上達します。最初は小さなテーブルからでOKです。</div>
+          </div>
+        </li>
+      </ul>
+
+      <div class="tip-box">
+        <strong>ポイント:</strong> いきなり難しい戦略を覚える必要はありません。「役」「流れ」「実際の画面」を何度か見ているうちに、自然と慣れていきます。
+      </div>
+
+      <div class="video-block">
+        <div class="video-label"><i class="fas fa-play-circle"></i><span>実際のプレイ画面のイメージを映像で見る</span></div>
+        <div class="video-frame">
+          <!-- あとであなたの動画URLに差し替えられるようにダミーURLを入れておきます -->
+          <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="How to Start Poker" allowfullscreen></iframe>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

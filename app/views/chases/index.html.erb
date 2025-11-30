@@ -1,61 +1,81 @@
-<h1>Geekpoker</h1>
-<h3>Poker一覧</h3>
-
-<%= link_to "新規投稿へ",new_chase_path, class:"h2" %>
+<h1>質問一覧</h1>
 
 <div class="chases-container">
-  <% @chases.each do |t| %>
-    <div class="chase">
-      <% if t.user %>
-        <%= t.user.email %>
-        <%= image_tag t.user.image_url, size: "250x200" if t.user.image? %>
-      <% else %>
-        <p>ユーザー情報がありません</p>
-      <% end %>
-      
-      <% if user_signed_in? %>
-        <%= link_to "マイページへ", user_path(current_user.id) %>
-      <% end %>
-      
+  <div class="search-sort-container">
+    <div class="di">
       <h3>投稿を検索</h3>
-      <%= form_tag({controller: "chases", action: "index"}, method: :get) do %>
-        <%= text_field_tag :search %>
-        <%= submit_tag '検索する' %>
+      <%= form_tag(chases_path, method: :get, class: "search-form") do %>
+        <%= text_field_tag :search, params[:search], placeholder: "キーワードを入力" %>
+        <%= submit_tag '検索する', class: "search-btn" %>
       <% end %>
-      
-      <%= t.body %>
-      <%= t.ace %>
-      <%= t.king %>
-      <%= t.queen %>
-      <%= t.jack %>
-      <%= t.ten %>
-      <%= t.nine %>
-      <%= t.eight %>
-      <%= t.seven %>
-      <%= t.six %>
-
-
-
-      <%= link_to "詳細へ", chase_path(t.id) %>
-      <%= link_to "編集する", edit_chase_path(t.id) %>
-      <%= button_to "削除する", chase_path(t.id), method: :delete %>
     </div>
+    
+    <div class="sort-buttons">
+      <%= link_to "新着順", chases_path(sort: "newest"), class: "sort-btn #{'active' unless params[:sort] == 'popular'}" %>
+      <%= link_to "人気順", chases_path(sort: "popular"), class: "sort-btn #{'active' if params[:sort] == 'popular'}" %>
+    </div>
+  </div>
 
-
-
-
-    <div>
-   <p1>質問</p1>
-   <p>ここから</p>
-</div>
-<div class="box"> 
-</div>
-
-<header class="header-nav">
-<nav><a href=".first-block">Home</a></nav>
-<nav><a href=".second-block">About me</a></nav>
-<nav><a href=".third-block">Recent Activity</a></nav>
-</header>
-
+  <% if @chases.any? %>
+    <div class="chases-grid">
+      <% @chases.each do |chase| %>
+        <div class="chase-card">
+          <div class="chase-header">
+            <div class="user-info">
+              <% if chase.user %>
+                <%= link_to user_path(chase.user), class: "user-link" do %>
+                  <strong><%= chase.user.name || chase.user.email %></strong>
+                <% end %>
+              <% end %>
+              <span class="created-at"><%= time_ago_in_words(chase.created_at) %>前</span>
+            </div>
+            <% if user_signed_in? && chase.user == current_user %>
+              <div class="chase-actions">
+                <%= link_to "編集", edit_chase_path(chase), class: "edit-link" %>
+                <%= button_to "削除", chase_path(chase), method: :delete, 
+                    class: "delete-btn", 
+                    data: { confirm: "本当に削除しますか？" } %>
+              </div>
+            <% end %>
+          </div>
+          
+          <div class="chase-body">
+            <p class="chase-question"><%= truncate(chase.body, length: 100) %></p>
+            
+            <div class="chase-stats">
+              <div class="stat-item">
+                <span class="stat-label">いいね:</span>
+                <span class="stat-value"><%= chase.likes.count %></span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">コメント:</span>
+                <span class="stat-value"><%= chase.comments.count %></span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="chase-footer">
+            <%= link_to "詳しく見る", chase_path(chase), class: "view-link" %>
+            <% if user_signed_in? %>
+              <% if current_user.likes.exists?(chase_id: chase.id) %>
+                <%= button_to "いいね解除", chase_like_path(chase), method: :delete, class: "like-btn liked" %>
+              <% else %>
+                <%= button_to "いいね", chase_like_path(chase), method: :post, class: "like-btn" %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    
+    <% if defined?(Kaminari) && @chases.respond_to?(:current_page) %>
+      <div class="pagination-container">
+        <%= paginate @chases %>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="no-chases">
+      <p>投稿がありません</p>
+    </div>
   <% end %>
 </div>

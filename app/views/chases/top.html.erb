@@ -1,17 +1,69 @@
 <div class="poker">
-   <div class="porker_1">
-      <h1>pokerとは</h1>
-      <p>ポーカーは、トランプを使用したカードゲームで、手持ちのカードの役の強さを競い合ってゲームの勝敗を決めるものです。<br>ポーカーは限られた情報からプレイヤーのカードを推測する不完全情報ゲームであり、相手の役と自分の役どちらが強いか読み合う心理戦が醍醐味とされています。<br>世界的に有名なバリエーションの一つは「テキサスホールデム」で、自分の手札とテーブルの共通カードを組み合わせて最強のハンドを作ります。<br>テキサスホールデムは競技人口が1億人以上で、世界中で大会が開かれるほど人気のあるカジノゲームです<br></p>
+  <div class="porker_1">
+    <div class="top-hero">
+      <h1>🎰 GeekPoker</h1>
+      <p class="hero-subtitle">ポーカーを学び、遊び、質問する</p>
+    </div>
+
+    <div class="top-features">
+      <div class="feature-card">
+        <div class="feature-icon">🎮</div>
+        <h2>ポーカーを遊ぶ</h2>
+        <p>AIプレイヤー3名と対戦できるテキサスホールデムポーカー</p>
+        <% if user_signed_in? %>
+          <%= link_to "ゲームを開始", new_poker_game_path, class: "feature-btn" %>
+        <% else %>
+          <%= link_to "ログインして遊ぶ", new_user_session_path, class: "feature-btn" %>
+        <% end %>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📝</div>
+        <h2>質問・相談</h2>
+        <p>ポーカーに関する質問を投稿し、コミュニティから回答をもらおう</p>
+        <%= link_to "質問を見る", chases_path, class: "feature-btn" %>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h2>コミュニティ</h2>
+        <p>他のプレイヤーと交流し、ポーカーの知識を深めよう</p>
+        <%= link_to "コミュニティへ", chases_path, class: "feature-btn" %>
+      </div>
+    </div>
+
+    <div class="poker-intro">
+      <h1>ポーカーとは</h1>
+      <p>ポーカーは、トランプを使用したカードゲームで、手持ちのカードの役の強さを競い合ってゲームの勝敗を決めるものです。<br>ポーカーは限られた情報からプレイヤーのカードを推測する不完全情報ゲームであり、相手の役と自分の役どちらが強いか読み合う心理戦が醍醡味とされています。<br>世界的に有名なバリエーションの一つは「テキサスホールデム」で、自分の手札とテーブルの共通カードを組み合わせて最強のハンドを作ります。<br>テキサスホールデムは競技人口が1億人以上で、世界中で大会が開かれるほど人気のあるカジノゲームです</p>
+      
+      <div class="poker_5">
+        <iframe width="450" height="300" src="https://www.youtube.com/embed/-ha3hTyR9R0?si=nE4raCJ5_1fYDi-V" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="450" height="300" src="https://www.youtube.com/embed/7CEkVND5f18?si=3xqSJKE_rqStjnNp" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="450" height="300" src="https://www.youtube.com/embed/z-X3MHV94I0?si=w8P_ZIM3k63nAwz7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+
       <h1>魅力</h1>
-      <p>ポーカーの目的は二つあります。<br>一つは最高の役（ハンド）を作り、テーブル上の他のプレイヤー全てを上回ること。<br>もう一つは他のプレイヤー全てを降参させ、ポット（賭け金の総額）を獲得することです。<br>これは、あなたが最高の役を持っていなくても、他のプレイヤーにそれを思わせてしまえば勝つことが可能という、ポーカーの魅力の一つです<br></p>
+      <p>ポーカーの目的は二つあります。<br>一つは最高の役（ハンド）を作り、テーブル上の他のプレイヤー全てを上回ること。<br>もう一つは他のプレイヤー全てを降参させ、ポット（賭け金の総額）を獲得することです。<br>これは、あなたが最高の役を持っていなくても、他のプレイヤーにそれを思わせてしまえば勝つことが可能という、ポーカーの魅力の一つです</p>
+      
+      <div class="poker_5">
+        <iframe width="500" height="400" src="https://www.youtube.com/embed/hK7F5LyLM9w?si=k9nPZo3eoOQ-M8xl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="500" height="400" src="https://www.youtube.com/embed/OTNyfvI35bc?si=02kntcLSPWBdTNe-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+
       <h1>ルールと進行</h1>
-     <p>ゲームの進行は配布で各プレイヤーに2枚のカードが配られ、<br>ベットするかしないかを決め、フロップで3枚のカードが公開、ターンで4枚目のカード公開、<br>リバーで5枚目のカードを公開、ショーダウンで残ったプレイヤーが手札を公開し、最強の役を持つプレイヤーが勝者となる、シンプルながらも奥深い戦略が楽しめるゲームです。<p>
-    <div class="poker_2">
-    <iframe width="400" height="300" src="https://www.youtube.com/embed/axl585df-Ic?si=JJGB9hsYs46gy0sU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      <p>ゲームの進行は配布で各プレイヤーに2枚のカードが配られ、<br>ベットするかしないかを決め、フロップで3枚のカードが公開、ターンで4枚目のカード公開、<br>リバーで5枚目のカードを公開、ショーダウンで残ったプレイヤーが手札を公開し、最強の役を持つプレイヤーが勝者となる、シンプルながらも奥深い戦略が楽しめるゲームです。</p>
+      
+      <div class="poker_5">
+        <div class="poker_2">
+          <iframe width="450" height="300" src="https://www.youtube.com/embed/axl585df-Ic?si=JJGB9hsYs46gy0sU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <div class="poker_3">
+          <iframe width="450" height="300" src="https://www.youtube.com/embed/tGoA4OWzzAk?si=ErM4Y-5wuGmB2uX1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <div class="poker_4">
+          <iframe width="450" height="300" src="https://www.youtube.com/embed/eRrm9og9tEU?si=uYWUfK1cPjHarG3D" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+      </div>
     </div>
-    </div>
+  </div>
 </div>
-
-
-
-

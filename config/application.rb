@@ -6,6 +6,9 @@ require "rails/all"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+# kaminariを明示的にrequire
+require 'kaminari'
+
 module Poker
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.

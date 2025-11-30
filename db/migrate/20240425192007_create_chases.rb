@@ -4,6 +4,11 @@ class CreateChases < ActiveRecord::Migration[6.1]
       t.text :body
       t.string :ace
       t.string :king
+      t.string :five
+      t.string :four
+      t.string :three
+      t.string :two
+      t.string :one
       t.float :queen
       t.float :jack
       t.float :ten
@@ -11,7 +16,15 @@ class CreateChases < ActiveRecord::Migration[6.1]
       t.float :eight
       t.float :seven
       t.string :six
-      t.string :float
+      t.string :aa
+      t.string :bb
+      t.string :cc
+      t.string :dd
+      t.string :ee
+
+
+
+
 
       t.timestamps
     end

@@ -1,0 +1,37 @@
+<h1>Public::Customers#show</h1>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-2"></div>  
+    <div class="col-md-8">
+
+      <h1 class="mb-4">マイページ</h1>
+
+      <h2>登録情報</h2>
+      <%= link_to '登録情報編集', edit_customer_path(@customer), class: "btn btn-success mb-4" %>
+
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <tr>
+            <th class="table-secondary w-25">氏名</th> 
+            <td><%= @customer.last_name %> <%= @customer.first_name %></td>
+          </tr>
+          <tr>
+            <th class="table-secondary">カナ</th>
+            <td><%= @customer.kana_last_name %> <%= @customer.kana_first_name %></td>
+          </tr>
+          <tr>
+            <th class="table-secondary">メールアドレス</th>
+            <td><%= @customer.email %></td>
+          </tr>
+        </table>
+      </div>
+
+      <%= link_to '自分の投稿', addresses_path, class: "btn btn-info mb-4" %>
+      <%= link_to '一覧に戻る', order_path, class: "btn btn-info mb-4" %>
+
+    </div>
+    <div class="col-md-2"></div>  
+  </div>
+</div>
+
+<p>Find me in app/views/public/customers/show.html.erb</p>

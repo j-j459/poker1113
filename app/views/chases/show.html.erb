@@ -1,30 +1,197 @@
-<h1>Geekpoker</h1>
-<h3>Chase詳細</h3>
-<div class="chase">
-  <p><%= @chase. body%></p>
-  <p><%= @chase.created_at %></p>
-</div>
-<div class="comment-wrapper">
-  <p>コメント一覧</p>
-  <% @comments.each do |c| %>
-    <div>
-      <%= c.user.email unless c.user.blank? %>
-      <br>
-      <%= c.content %>
-    </div>
-      <br>
-  <% end %>
-
-
-
-  <% if user_signed_in? %>
-    <%= form_with(model: [@chase, @comment], local: true) do |f| %>
-      <%= f.text_area :content %>
-      <%= button_tag type: "submit" do %>
-      <i class="far fa-comments"></i> コメントする
+<div class="chase-show-container">
+  <div class="chase-main">
+    <div class="chase-header-show">
+      <div class="user-info-show">
+        <% if @chase.user %>
+          <%= link_to user_path(@chase.user), class: "user-link-show" do %>
+            <strong><%= @chase.user.name || @chase.user.email %></strong>
+          <% end %>
+        <% end %>
+        <span class="created-at-show"><%= @chase.created_at.strftime("%Y年%m月%d日 %H:%M") %></span>
+      </div>
+      
+      <% if user_signed_in? && @chase.user == current_user %>
+        <div class="chase-actions-show">
+          <%= link_to "編集", edit_chase_path(@chase), class: "edit-link" %>
+          <%= button_to "削除", chase_path(@chase), method: :delete, 
+              class: "delete-btn", 
+              data: { confirm: "本当に削除しますか？" } %>
+        </div>
       <% end %>
+    </div>
+
+    <div class="chase-question-show">
+      <h2>質問</h2>
+      <p><%= simple_format(@chase.body) %></p>
+    </div>
+
+    <div class="chase-stats-show">
+      <div class="stat-item-show">
+        <span class="stat-label-show">いいね:</span>
+        <span class="stat-value-show"><%= @chase.likes.count %></span>
+      </div>
+      <div class="stat-item-show">
+        <span class="stat-label-show">コメント:</span>
+        <span class="stat-value-show"><%= @chase.comments.count %></span>
+      </div>
+    </div>
+
+    <div class="like-section">
+      <% if user_signed_in? %>
+        <% if current_user.likes.exists?(chase_id: @chase.id) %>
+          <%= button_to "❤️ いいね解除", chase_like_path(@chase), method: :delete, class: "like-btn-show liked" %>
+        <% else %>
+          <%= button_to "🤍 いいね", chase_like_path(@chase), method: :post, class: "like-btn-show" %>
+        <% end %>
+      <% else %>
+        <p class="login-prompt">いいねするには<%= link_to "ログイン", new_user_session_path %>してください</p>
+      <% end %>
+    </div>
+
+    <div class="poker-table-show">
+      <div class="jj">
+        <div class="ai">
+          <div class="field1">
+            <b>SB</b>
+            <%= @chase.ace %>
+          </div>
+
+          <div class="field3">
+            <b>BB</b>
+            <%= @chase.five %>
+          </div>
+
+          <div class="field4">
+            <b>UTG</b>
+            <%= @chase.four %>
+          </div>
+        </div>
+        
+        <div class="bi">
+          <div class="field2">
+            <b>BTN</b>
+            <%= @chase.king %>
+          </div>
+
+          <div class="field8d">
+            <div class="kk">
+              <div class="field15">
+                <b>カード1</b>
+                <%= @chase.aa %>
+              </div>
+              
+              <div class="field15">
+                <b>カード2</b>
+                <%= @chase.bb %>
+              </div>
+
+              <div class="field15">
+                <b>カード3</b>
+                <%= @chase.cc %>
+              </div>
+
+              <div class="field15">
+                <b>カード4</b>
+                <%= @chase.dd %>
+              </div>
+
+              <div class="field15">
+                <b>カード5</b>
+                <%= @chase.ee %>
+              </div>
+            </div>
+
+            <div class="k893">
+              <b>ポット額BB</b>
+              <%= @chase.queen %>
+            </div>
+          </div>
+
+          <div class="field5">
+            <b>LJ</b>
+            <%= @chase.three %>
+          </div>
+        </div>
+
+        <div class="ci">
+          <div class="field6">
+            <b>HJ</b>
+            <%= @chase.two %>
+          </div>
+
+          <div class="field7">
+            <b>CO</b>
+            <%= @chase.one %>
+          </div>
+        </div>
+      </div>
+
+      <div class="ki">
+        <div class="field12">
+          <b>アンティ</b>
+          <%= @chase.six %>
+        </div>
+
+        <div class="field13">
+          <b>SB</b>
+          <%= @chase.jack %>
+        </div>
+
+        <div class="field14">
+          <b>Blind</b>
+          <%= @chase.ten %>
+        </div>
+
+        <div class="field9">
+          <b>BET</b>
+          <%= @chase.nine %>
+        </div>
+
+        <div class="field10">
+          <b>RAISE</b>
+          <%= @chase.eight %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="comments-section">
+    <h3>コメント一覧 (<%= @comments.count %>)</h3>
+    
+    <% if @comments.any? %>
+      <div class="comments-list">
+        <% @comments.each do |comment| %>
+          <div class="comment-item">
+            <div class="comment-header">
+              <% if comment.user %>
+                <strong class="comment-user"><%= comment.user.name || comment.user.email %></strong>
+                <span class="comment-time"><%= time_ago_in_words(comment.created_at) %>前</span>
+              <% end %>
+            </div>
+            <div class="comment-content">
+              <%= simple_format(comment.content) %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="no-comments">まだコメントがありません</p>
     <% end %>
-  <% end %>
+
+    <% if user_signed_in? %>
+      <div class="comment-form-container">
+        <h4>コメントを投稿</h4>
+        <%= form_with(model: [@chase, @comment], local: true, class: "comment-form") do |f| %>
+          <%= f.text_area :content, placeholder: "コメントを入力してください", rows: 4, class: "comment-textarea" %>
+          <%= f.submit "コメントする", class: "comment-submit-btn" %>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="login-prompt">コメントするには<%= link_to "ログイン", new_user_session_path %>してください</p>
+    <% end %>
+  </div>
+
+  <div class="back-link-container">
+    <%= link_to "← 一覧に戻る", chases_path, class: "back-link" %>
+  </div>
 </div>
-<%= link_to "一覧に戻る", chases_path %>
-<%= link_to "編集する", edit_chase_path(@chase.id) %>

@@ -1,0 +1,151 @@
+<div class="poker-game-container">
+  <% if @game_session.status == 'finished' && @winner %>
+    <div class="game-result">
+      <h1>🎉 ゲーム終了</h1>
+      <div class="winner-announcement">
+        <h2>勝者: <%= @winner.name %></h2>
+        <p>獲得チップ: <%= @winner.chips %> 枚</p>
+      </div>
+    </div>
+  <% end %>
+  
+  <div class="game-header">
+    <h1>🎰 ポーカーゲーム</h1>
+    <div class="game-info">
+      <div class="info-item">
+        <span class="label">ポット:</span>
+        <span class="value"><%= @game_session.pot %> チップ</span>
+      </div>
+      <div class="info-item">
+        <span class="label">フェーズ:</span>
+        <span class="value"><%= @game_session.game_phase %></span>
+      </div>
+      <div class="info-item">
+        <span class="label">現在のベット:</span>
+        <span class="value"><%= @game_session.current_bet %> チップ</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="poker-table-wrapper">
+    <div class="poker-table">
+      <!-- AIプレイヤー3名 -->
+      <% @players.select(&:ai?).each_with_index do |player, index| %>
+        <div class="player-seat ai-seat" data-position="<%= player.position %>">
+          <div class="player-info">
+            <div class="player-name"><%= player.name %></div>
+            <div class="player-chips">チップ: <%= player.chips %></div>
+            <div class="player-bet">ベット: <%= player.current_bet %></div>
+          </div>
+          <div class="player-cards">
+            <% if player.is_folded %>
+              <div class="folded-indicator">フォールド</div>
+            <% else %>
+              <div class="card-back">🂠</div>
+              <div class="card-back">🂠</div>
+            <% end %>
+          </div>
+          <% if player.position == @game_session.current_player_position && @game_session.status != 'finished' %>
+            <div class="current-player-indicator">👈 あなたのターン</div>
+          <% end %>
+        </div>
+      <% end %>
+
+      <!-- コミュニティカード -->
+      <div class="community-cards">
+        <h3>コミュニティカード</h3>
+        <div class="cards-display">
+          <% if @community_cards.any? %>
+            <% @community_cards.each do |card| %>
+              <div class="card <%= ['♥', '♦'].include?(card['suit']) ? 'red' : 'black' %>">
+                <span class="card-suit"><%= card['suit'] %></span>
+                <span class="card-rank"><%= card['rank'] %></span>
+              </div>
+            <% end %>
+          <% else %>
+            <p class="no-cards">まだカードが公開されていません</p>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- ユーザープレイヤー -->
+      <% if @user_player %>
+        <div class="player-seat human-seat" data-position="<%= @user_player.position %>">
+          <div class="player-info">
+            <div class="player-name">あなた (<%= @user_player.name %>)</div>
+            <div class="player-chips">チップ: <%= @user_player.chips %></div>
+            <div class="player-bet">ベット: <%= @user_player.current_bet %></div>
+          </div>
+          <div class="player-cards">
+            <% if @user_player.is_folded %>
+              <div class="folded-indicator">フォールド</div>
+            <% else %>
+              <% @user_player.hand_cards_array.each do |card| %>
+                <div class="card <%= ['♥', '♦'].include?(card['suit']) ? 'red' : 'black' %>">
+                  <span class="card-suit"><%= card['suit'] %></span>
+                  <span class="card-rank"><%= card['rank'] %></span>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+          <% if @user_player.position == @game_session.current_player_position && @game_session.status != 'finished' %>
+            <div class="current-player-indicator">👈 あなたのターン</div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- アクションボタン（ユーザーのターンのみ） -->
+  <% if @game_session.status == 'finished' %>
+    <div class="action-panel">
+      <p class="game-finished-message">ゲームが終了しました。新しいゲームを開始してください。</p>
+    </div>
+  <% elsif @user_player && @user_player.position == @game_session.current_player_position && !@user_player.is_folded %>
+    <div class="action-panel">
+      <h3>アクションを選択</h3>
+      <div class="action-buttons">
+        <% call_amount = @game_session.current_bet - @user_player.current_bet %>
+        
+        <% if call_amount == 0 %>
+          <%= button_to "チェック", action_poker_game_path(@game_session), method: :post, 
+              params: { action_type: 'check' }, class: "action-btn check-btn" %>
+        <% else %>
+          <%= button_to "コール (#{call_amount})", action_poker_game_path(@game_session), method: :post, 
+              params: { action_type: 'call' }, class: "action-btn call-btn" %>
+        <% end %>
+        
+        <%= button_to "フォールド", action_poker_game_path(@game_session), method: :post, 
+            params: { action_type: 'fold' }, class: "action-btn fold-btn" %>
+        
+        <div class="bet-raise-section">
+          <label>ベット/レイズ額:</label>
+          <%= form_with url: action_poker_game_path(@game_session), method: :post, local: true, class: "bet-form" do |f| %>
+            <%= f.number_field :amount, min: @game_session.big_blind, max: @user_player.chips, 
+                value: [@game_session.big_blind * 2, @user_player.chips].min, class: "bet-amount-input" %>
+            <%= f.hidden_field :action_type, value: 'bet' %>
+            <%= f.submit "ベット", class: "action-btn bet-btn" %>
+          <% end %>
+        </div>
+        
+        <% if @user_player.chips > 0 %>
+          <%= button_to "オールイン", action_poker_game_path(@game_session), method: :post, 
+              params: { action_type: 'all_in' }, class: "action-btn allin-btn" %>
+        <% end %>
+      </div>
+    </div>
+  <% elsif @user_player && @user_player.is_folded %>
+    <div class="action-panel">
+      <p class="folded-message">あなたはフォールドしました。次のゲームをお待ちください。</p>
+    </div>
+  <% else %>
+    <div class="action-panel">
+      <p class="waiting-message">他のプレイヤーのターンです。お待ちください...</p>
+    </div>
+  <% end %>
+
+  <div class="game-actions">
+    <%= link_to "新しいゲームを開始", new_poker_game_path, class: "new-game-btn" %>
+    <%= link_to "トップに戻る", root_path, class: "back-to-top-btn" %>
+  </div>
+</div>

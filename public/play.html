@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GeekPoker Play｜テキサスホールデム体験</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    :root {
+      --bg-dark: #020617;
+      --bg-table: #065f46;
+      --accent: #facc15;
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --danger: #f97373;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans JP', system-ui;
+      background: radial-gradient(circle at top, #064e3b 0, #020617 55%, #020617 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+    .page { max-width: 1200px; margin: 0 auto; padding: 16px 12px 40px; }
+
+    .header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 16px; border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.4);
+      backdrop-filter: blur(16px);
+      margin-bottom: 18px;
+    }
+    .logo { display: flex; align-items: center; gap: 8px; font-family: 'Playfair Display', serif; }
+    .logo-icon { width: 24px; height: 24px; border-radius: 7px; border: 2px solid var(--accent); display:flex; align-items:center; justify-content:center; background: radial-gradient(circle at top, #facc15, #b45309); color:#111827; font-size: 14px; }
+    .nav { display: flex; gap: 10px; font-size: 12px; }
+    .nav a { padding: 5px 10px; border-radius: 999px; color: var(--text-muted); border: 1px solid transparent; }
+    .nav a:hover { border-color: rgba(148,163,184,0.7); color: var(--text-main); }
+    .nav a.nav-primary { background: var(--accent); color: #111827; font-weight: 700; border-color: transparent; }
+
+    .layout { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1.1fr); gap: 14px; align-items: flex-start; }
+    @media (max-width: 900px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+
+    /* テーブル */
+    .table-wrapper { padding: 12px; }
+    .table-bg {
+      position: relative; border-radius: 999px; background: radial-gradient(circle at top, #10b981, #065f46 55%, #14532d 100%);
+      border: 12px solid #78350f; aspect-ratio: 4/3;
+      box-shadow: 0 28px 70px rgba(0,0,0,0.7);
+      overflow: hidden;
+    }
+    .table-bg::before { content:''; position:absolute; inset: 9%; border-radius: 999px; border: 1px dashed rgba(15,23,42,0.4); }
+
+    .community { position:absolute; top: 47%; left: 50%; transform: translate(-50%, -50%); display:flex; gap:8px; }
+    .card { width:54px; height:76px; border-radius: 7px; background:#f9fafb; display:flex; align-items:center; justify-content:center; font-size:18px; color:#111827; box-shadow:0 3px 7px rgba(15,23,42,0.7); }
+    .card.back { background: linear-gradient(135deg,#1f2937,#020617); color:#4b5563; font-size: 12px; }
+    .card.red { color:#b91c1c; }
+
+    .pot { position:absolute; top: 63%; left:50%; transform: translateX(-50%); text-align:center; font-size: 12px; }
+    .pot-amount { font-size: 18px; font-weight: 700; margin-top:2px; }
+
+    .seat { position:absolute; padding:6px 9px; border-radius: 999px; background: rgba(15,23,42,0.95); border:1px solid rgba(148,163,184,0.7); font-size: 11px; display:flex; flex-direction: column; align-items:center; gap:3px; min-width:90px; box-shadow:0 8px 18px rgba(15,23,42,0.8); }
+    .seat-name { font-weight: 600; }
+    .seat-stack { color: var(--accent); }
+    .seat-action { font-size: 10px; color: var(--text-muted); min-height: 14px; }
+    .seat-cards { display:flex; gap:4px; }
+    .mini { width:22px; height:30px; border-radius:4px; background:#e5e7eb; display:flex; align-items:center; justify-content:center; font-size: 11px; color:#111827; box-shadow:0 2px 4px rgba(15,23,42,0.7); }
+    .mini.red { color:#b91c1c; }
+
+    .seat.me { bottom: 4%; left: 50%; transform: translateX(-50%); }
+    .seat.cpu1 { top: 6%; left: 17%; }
+    .seat.cpu2 { top: 6%; right: 17%; }
+    .seat.cpu3 { bottom: 9%; left: 10%; }
+
+    .seat.turn { border-color: var(--accent); box-shadow:0 0 0 2px rgba(250,204,21,0.6), 0 10px 22px rgba(15,23,42,0.9); }
+    .seat.winner { background: linear-gradient(90deg, rgba(250,204,21,0.24), rgba(56,189,248,0.18)); }
+
+    .seat.bet-anim { animation: seatBet 0.5s ease-out; }
+
+    @keyframes seatBet {
+      0% { transform: translateY(0); }
+      40% { transform: translateY(-4px); }
+      100% { transform: translateY(0); }
+    }
+
+    .pot-amount.pot-anim { animation: potPulse 0.45s ease-out; }
+
+    @keyframes potPulse {
+      0% { transform: scale(1); }
+      40% { transform: scale(1.12); }
+      100% { transform: scale(1); }
+    }
+
+    /* コントロールパネル */
+    .panel {
+      padding: 14px 16px; border-radius: 18px;
+      background: rgba(15,23,42,0.95);
+      border: 1px solid rgba(148,163,184,0.5);
+      box-shadow: 0 18px 40px rgba(15,23,42,0.9);
+      font-size: 13px;
+    }
+    .panel-title { font-size: 15px; margin-bottom: 6px; }
+    .panel-row { margin-top: 10px; display:flex; align-items:center; justify-content:space-between; gap: 10px; }
+
+    .actions { display:flex; gap: 8px; flex-wrap: wrap; }
+    .btn { padding:8px 14px; border-radius: 999px; border:none; font-size: 12px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; }
+    .btn:disabled { opacity: 0.4; cursor:not-allowed; }
+    .btn-main { background: linear-gradient(90deg,#facc15,#f97316); color:#111827; font-weight:700; }
+    .btn-sec { background: rgba(15,23,42,0.8); color: var(--text-main); border:1px solid rgba(148,163,184,0.6); }
+    .btn-danger { background: rgba(248,113,113,0.18); color:#fecaca; border:1px solid rgba(248,113,113,0.7); }
+
+    .slider-wrap { flex:1; }
+    .slider-label { font-size: 11px; color: var(--text-muted); margin-bottom: 2px; display:flex; justify-content:space-between; }
+    input[type=range] { width:100%; }
+
+    .log {
+      margin-top: 12px; padding-top: 10px; border-top:1px solid rgba(31,41,55,0.8);
+      font-size: 12px; color: var(--text-muted);
+      max-height: 140px; overflow-y:auto;
+    }
+    .log-line { margin-bottom: 4px; }
+
+    .board-status {
+      position: absolute;
+      top: 7%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px;
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(15,23,42,0.9);
+      padding: 4px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(250,204,21,0.6);
+      box-shadow: 0 6px 16px rgba(15,23,42,0.9);
+      max-width: 72%;
+      text-align: center;
+      white-space: normal;
+    }
+
+    .board-status span.icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: rgba(250,204,21,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-size: 10px;
+    }
+
+    .board-status.board-status-anim {
+      animation: boardStatusFade 0.35s ease-out;
+    }
+
+    @keyframes boardStatusFade {
+      0% { opacity: 0; transform: translate(-50%, -6px); }
+      100% { opacity: 1; transform: translate(-50%, 0); }
+    }
+
+    /* 中央の Win バナー */
+    .table-win-banner {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      padding: 10px 22px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(250,204,21,0.95), rgba(251,191,36,0.1));
+      color: #111827;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.7);
+      border: 1px solid rgba(250,204,21,0.8);
+      text-shadow: 0 0 10px rgba(250,250,210,0.9);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .table-win-banner.show {
+      animation: winBannerPop 1s ease-out forwards;
+    }
+
+    @keyframes winBannerPop {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.6); }
+      40% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+      70% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+    }
+
+    .side-card {
+      padding: 12px 14px 14px; border-radius:16px; background: rgba(15,23,42,0.96); border:1px solid rgba(148,163,184,0.5); box-shadow:0 16px 36px rgba(15,23,42,0.9); font-size:12px;
+    }
+    .side-card + .side-card { margin-top: 12px; }
+    .side-title { font-size: 13px; margin-bottom: 6px; }
+    .pill-list { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+    .pill { padding:3px 8px; border-radius:999px; background: rgba(15,23,42,0.9); border:1px solid rgba(148,163,184,0.6); font-size: 10px; color: var(--text-muted); }
+
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <a href="/" class="logo">
+        <div class="logo-icon"><i class="fas fa-diamond"></i></div>
+        <div>
+          <div style="font-size: 12px;">GeekPoker</div>
+          <div style="font-size: 10px; color: var(--text-muted);">Texas Hold'em Demo</div>
+        </div>
+      </a>
+      <nav class="nav">
+        <a href="/" >ホーム</a>
+        <a href="/play" class="nav-primary">プレイ</a>
+        <a href="/rules">ルール</a>
+        <a href="/hands">役一覧</a>
+      </nav>
+    </header>
+
+    <div class="layout">
+      <main class="table-wrapper">
+        <div class="table-bg" id="table">
+          <div class="community" id="community">
+            <!-- JS でカードを表示 -->
+          </div>
+          <div class="pot">
+            <div style="font-size: 11px;">現在のポット</div>
+            <div class="pot-amount" id="pot-amount">$0</div>
+          </div>
+
+          <div class="board-status" id="turn-label">
+            <span class="icon"><i class="fas fa-bullseye"></i></span>
+            <span>「次のハンド」を押してゲームを開始してください。</span>
+          </div>
+          <div class="table-win-banner" id="table-win"></div>
+
+          <div class="seat me" data-seat="0">
+            <div class="seat-name">You</div>
+            <div class="seat-stack" data-stack>Stack: $200</div>
+            <div class="seat-cards" data-cards></div>
+            <div class="seat-action" data-action></div>
+          </div>
+          <div class="seat cpu1" data-seat="1">
+            <div class="seat-name">CPU 1</div>
+            <div class="seat-stack" data-stack>Stack: $200</div>
+            <div class="seat-cards" data-cards></div>
+            <div class="seat-action" data-action></div>
+          </div>
+          <div class="seat cpu2" data-seat="2">
+            <div class="seat-name">CPU 2</div>
+            <div class="seat-stack" data-stack>Stack: $200</div>
+            <div class="seat-cards" data-cards></div>
+            <div class="seat-action" data-action></div>
+          </div>
+          <div class="seat cpu3" data-seat="3">
+            <div class="seat-name">CPU 3</div>
+            <div class="seat-stack" data-stack>Stack: $200</div>
+            <div class="seat-cards" data-cards></div>
+            <div class="seat-action" data-action></div>
+          </div>
+        </div>
+
+        <section class="panel">
+          <div class="panel-title">あなたのアクション</div>
+          <div style="font-size: 12px; color: var(--text-muted);">テキサスホールデムの 1 ハンドを簡単に体験できます。</div>
+
+          <div class="panel-row" style="margin-top: 12px;">
+            <div class="actions">
+              <button class="btn btn-danger" id="btn-fold">フォールド</button>
+              <button class="btn btn-sec" id="btn-call">チェック / コール</button>
+              <button class="btn btn-main" id="btn-bet">ベット / レイズ</button>
+            </div>
+          </div>
+
+          <div class="panel-row">
+            <div class="slider-wrap">
+              <div class="slider-label">
+                <span>ベット額</span>
+                <span id="bet-label">$10</span>
+              </div>
+              <input type="range" id="bet-range" min="10" max="100" step="5" value="10" />
+            </div>
+            <button class="btn btn-sec" id="btn-next-hand"><i class="fas fa-redo"></i> 次のハンド</button>
+          </div>
+
+          <div class="log" id="log"></div>
+        </section>
+      </main>
+
+      <aside>
+        <div class="side-card">
+          <div class="side-title">このデモで分かること</div>
+          <ul style="padding-left: 16px; margin-top: 4px;">
+            <li>・2枚の手札＋場のカード5枚で勝負する感覚</li>
+            <li>・順番にアクションしてポットが大きくなるイメージ</li>
+            <li>・最後に役を比べて勝者が決まる流れ</li>
+          </ul>
+          <div class="pill-list">
+            <span class="pill">テキサスホールデム</span>
+            <span class="pill">You vs CPU</span>
+            <span class="pill">1ハンド体験</span>
+          </div>
+        </div>
+
+        <div class="side-card">
+          <div class="side-title">簡単な遊び方</div>
+          <ol style="padding-left: 16px; margin-top: 4px;">
+            <li>1. 「次のハンド」を押してカードを配る</li>
+            <li>2. あなたのカードと場のカードを見て、フォールド / コール / ベットを選ぶ</li>
+            <li>3. CPU が自動でアクションし、最後に勝者がハイライトされます</li>
+          </ol>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- サウンド（必要に応じて /public/sounds 配下にmp3を置いてください） -->
+  <audio id="sfx-bet" src="/sounds/chip.mp3" preload="auto"></audio>
+  <audio id="sfx-fold" src="/sounds/fold.mp3" preload="auto"></audio>
+  <audio id="sfx-call" src="/sounds/check.mp3" preload="auto"></audio>
+  <audio id="sfx-win" src="/sounds/win.mp3" preload="auto"></audio>
+  <audio id="sfx-lose" src="/sounds/lose.mp3" preload="auto"></audio>
+
+  <!-- 勝利/敗北オーバーレイ -->
+  <div class="result-overlay" id="result-overlay">
+    <div class="result-card" id="result-card">
+      <div class="result-title" id="result-title">You Win!</div>
+      <div class="result-sub" id="result-sub">おめでとうございます！ポットを獲得しました。</div>
+      <button class="result-btn" id="result-next">次のハンドへ</button>
+    </div>
+  </div>
+
+  <script>
+    // --- テキサスホールデム簡易ロジック ---
+    const suits = ['♠', '♥', '♦', '♣'];
+    const ranks = ['2','3','4','5','6','7','8','9','T','J','Q','K','A'];
+
+    function createDeck() {
+      const deck = [];
+      for (const s of suits) {
+        for (const r of ranks) {
+          deck.push({ rank: r, suit: s });
+        }
+      }
+      return deck;
+    }
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function cardToString(card) {
+      const red = card.suit === '♥' || card.suit === '♦';
+      return { text: card.rank + card.suit, red };
+    }
+
+    // 役の強さ評価（ハイカード〜ストレートフラッシュ）
+    function evaluateHand(cards) {
+      // cards: 7枚 → 「ペア/フラッシュ/ストレート」をざっくり見る
+      const counts = {};
+      const suitCounts = {};
+      const values = cards.map(c => ranks.indexOf(c.rank)).sort((a,b)=>a-b);
+      for (const c of cards) {
+        counts[c.rank] = (counts[c.rank] || 0) + 1;
+        suitCounts[c.suit] = (suitCounts[c.suit] || 0) + 1;
+      }
+      const pairs = Object.values(counts).filter(v => v === 2).length;
+      const threes = Object.values(counts).filter(v => v === 3).length;
+      const fours = Object.values(counts).filter(v => v === 4).length;
+      const hasFlush = Object.values(suitCounts).some(v => v >= 5);
+
+      // ストレート判定（超簡易）
+      let straight = false;
+      let run = 1;
+      for (let i = 1; i < values.length; i++) {
+        if (values[i] === values[i-1] + 1) {
+          run++;
+          if (run >= 5) { straight = true; }
+        } else if (values[i] !== values[i-1]) {
+          run = 1;
+        }
+      }
+
+      // スコアと役名
+      let score = 1;
+      let name = 'ハイカード';
+      if (fours) { score = 8; name = 'フォーカード'; }
+      else if (threes && pairs) { score = 7; name = 'フルハウス'; }
+      else if (hasFlush && straight) { score = 8.5; name = 'ストレートフラッシュ'; }
+      else if (hasFlush) { score = 6; name = 'フラッシュ'; }
+      else if (straight) { score = 5; name = 'ストレート'; }
+      else if (threes) { score = 4; name = 'スリーカード'; }
+      else if (pairs >= 2) { score = 3; name = 'ツーペア'; }
+      else if (pairs === 1) { score = 2; name = 'ワンペア'; }
+
+      return { score, name };
+    }
+
+    const state = {
+      stacks: [200, 200, 200, 200],
+      pot: 0,
+      deck: [],
+      hands: [[], [], [], []],
+      board: [],
+      currentSeat: 0,
+      handOver: false,
+      dealing: false,
+    };
+
+    const logEl = document.getElementById('log');
+    const potEl = document.getElementById('pot-amount');
+    const communityEl = document.getElementById('community');
+    const seatEls = Array.from(document.querySelectorAll('.seat'));
+    const turnLabelEl = document.getElementById('turn-label');
+
+    const btnFold = document.getElementById('btn-fold');
+    const btnCall = document.getElementById('btn-call');
+    const btnBet  = document.getElementById('btn-bet');
+
+    const sfxBet = document.getElementById('sfx-bet');
+    const sfxFold = document.getElementById('sfx-fold');
+    const sfxCall = document.getElementById('sfx-call');
+    const sfxWin = document.getElementById('sfx-win');
+    const sfxLose = document.getElementById('sfx-lose');
+
+    const resultOverlay = document.getElementById('result-overlay');
+    const resultTitleEl = document.getElementById('result-title');
+    const resultSubEl = document.getElementById('result-sub');
+    const tableWinEl = document.getElementById('table-win');
+
+    function setActionButtonsEnabled(enabled) {
+      [btnFold, btnCall, btnBet].forEach(btn => {
+        if (!btn) return;
+        btn.disabled = !enabled;
+      });
+    }
+
+    function isGameOver() {
+      const youBroke = state.stacks[0] <= 0;
+      const allCpuBroke = state.stacks[1] <= 0 && state.stacks[2] <= 0 && state.stacks[3] <= 0;
+      return youBroke || allCpuBroke;
+    }
+
+    function handleGameOver() {
+      const youBroke = state.stacks[0] <= 0;
+      const allCpuBroke = state.stacks[1] <= 0 && state.stacks[2] <= 0 && state.stacks[3] <= 0;
+
+      setActionButtonsEnabled(false);
+
+      if (turnLabelEl) {
+        if (youBroke) {
+          turnLabelEl.innerHTML = '<span class="icon"><i class="fas fa-flag-checkered"></i></span><span>あなたのチップがなくなりました。ゲーム終了です。</span>';
+        } else if (allCpuBroke) {
+          turnLabelEl.innerHTML = '<span class="icon"><i class="fas fa-crown"></i></span><span>CPU のチップがなくなりました。あなたの勝ちです！</span>';
+        }
+      }
+
+      // 次のハンドボタンは押せないようにする
+      const nextBtn = document.getElementById('btn-next-hand');
+      if (nextBtn) nextBtn.disabled = true;
+
+      // 下のオーバーレイにもゲーム終了メッセージを表示
+      if (youBroke) {
+        resultTitleEl.textContent = 'Game Over';
+        resultSubEl.textContent = 'チップが 0 になりました。このセッションは終了です。';
+      } else if (allCpuBroke) {
+        resultTitleEl.textContent = 'You Win!';
+        resultSubEl.textContent = 'CPU のチップがなくなりました。総合勝者はあなたです！';
+      }
+      resultOverlay.classList.add('show');
+    }
+
+    function log(msg) {
+      const line = document.createElement('div');
+      line.className = 'log-line';
+      line.textContent = msg;
+      logEl.prepend(line);
+    }
+
+    function setTurnLabel() {
+      if (!turnLabelEl) return;
+      if (state.handOver) {
+        turnLabelEl.innerHTML = '<span class="icon"><i class="fas fa-flag-checkered"></i></span><span>ハンドが終了しました。「次のハンド」で続けられます。</span>';
+        turnLabelEl.classList.add('board-status-anim');
+        setTimeout(() => turnLabelEl.classList.remove('board-status-anim'), 350);
+        return;
+      }
+      if (state.currentSeat === 0) {
+        turnLabelEl.innerHTML = '<span class="icon"><i class="fas fa-user"></i></span><span>あなたの番です。フォールド / コール / ベット を選んでください。</span>';
+      } else {
+        turnLabelEl.innerHTML = '<span class="icon"><i class="fas fa-robot"></i></span><span>CPU ' + state.currentSeat + ' が考え中です…</span>';
+      }
+      turnLabelEl.classList.add('board-status-anim');
+      setTimeout(() => turnLabelEl.classList.remove('board-status-anim'), 350);
+    }
+
+    function playSfx(audioEl) {
+      if (!audioEl) return;
+      try {
+        audioEl.currentTime = 0;
+        audioEl.play();
+      } catch (e) { /* ブラウザの自動再生制限を無視するため何もしない */ }
+    }
+
+    function renderTable() {
+      // ポット
+      potEl.textContent = '$' + state.pot;
+      // ボード
+      communityEl.innerHTML = '';
+      state.board.forEach(card => {
+        const { text, red } = cardToString(card);
+        const div = document.createElement('div');
+        div.className = 'card' + (red ? ' red' : '');
+        div.textContent = text;
+        communityEl.appendChild(div);
+      });
+      while (communityEl.children.length < 5) {
+        const div = document.createElement('div');
+        div.className = 'card back';
+        div.textContent = '?';
+        communityEl.appendChild(div);
+      }
+
+      // 各プレイヤー
+      seatEls.forEach((seat, i) => {
+        const stackEl = seat.querySelector('[data-stack]');
+        const cardsEl = seat.querySelector('[data-cards]');
+        const actionEl = seat.querySelector('[data-action]');
+        stackEl.textContent = 'Stack: $' + state.stacks[i];
+        cardsEl.innerHTML = '';
+        state.hands[i].forEach((card, idx) => {
+          const { text, red } = cardToString(card);
+          const div = document.createElement('div');
+          div.className = 'mini' + (red ? ' red' : '');
+          // CPU のカードは片方だけ裏向きにする
+          if (i !== 0 && idx === 1 && !state.handOver) {
+            div.textContent = '■';
+          } else {
+            div.textContent = text;
+          }
+          cardsEl.appendChild(div);
+        });
+        if (!actionEl.textContent) actionEl.textContent = '';
+      });
+
+      seatEls.forEach(s => s.classList.remove('turn', 'winner', 'bet-anim'));
+      if (!state.handOver) {
+        seatEls[state.currentSeat].classList.add('turn');
+      }
+
+      setTurnLabel();
+    }
+
+    function startNewHand() {
+      state.deck = shuffle(createDeck());
+      state.pot = 0;
+      state.board = [];
+      state.hands = [[], [], [], []];
+      state.handOver = false;
+      state.currentSeat = 0;
+      state.dealing = true;
+      logEl.innerHTML = '';
+      log('--- 新しいハンド ---');
+
+      // アクションボタンはいったん無効化（配り終わるまで）
+      setActionButtonsEnabled(false);
+
+      // シートの表示を初期化
+      seatEls.forEach((seat, i) => {
+        const cardsEl = seat.querySelector('[data-cards]');
+        const actionEl = seat.querySelector('[data-action]');
+        cardsEl.innerHTML = '';
+        actionEl.textContent = '';
+        seat.classList.remove('winner', 'turn', 'bet-anim');
+      });
+
+      // ターンラベルも初期メッセージに近い形で更新
+      if (turnLabelEl) {
+        turnLabelEl.innerHTML = '<span class="icon"><i class="fas fa-bullseye"></i></span><span>カードを配っています…</span>';
+      }
+
+      // カードを1枚ずつ配る
+      let dealIndex = 0; // 0〜7（4人×2枚）
+      function dealStep() {
+        if (dealIndex >= 8) {
+          // ブラインドを置いてプレイ開始
+          takeFromPlayer(1, 5, 'ブラインド');
+          takeFromPlayer(2, 10, 'ブラインド');
+          state.dealing = false;
+          state.currentSeat = 0;
+          renderTable();
+          // ここでアクションボタンを有効化
+          setActionButtonsEnabled(true);
+          return;
+        }
+        const player = dealIndex % 4;
+        state.hands[player].push(state.deck.pop());
+        dealIndex++;
+        renderTable();
+        setTimeout(dealStep, 180);
+      }
+
+      dealStep();
+    }
+
+    function takeFromPlayer(i, amount, reason) {
+      const take = Math.min(amount, state.stacks[i]);
+      state.stacks[i] -= take;
+      state.pot += take;
+      const seat = seatEls[i];
+      const actionEl = seat.querySelector('[data-action]');
+      actionEl.textContent = reason + ' -$' + take;
+      seat.classList.add('bet-anim');
+      potEl.classList.add('pot-anim');
+      setTimeout(() => {
+        seat.classList.remove('bet-anim');
+        potEl.classList.remove('pot-anim');
+      }, 500);
+    }
+
+    function cpuAction(i) {
+      const cards = [...state.hands[i], ...state.board];
+      // 評価結果オブジェクトから score を取り出す
+      const evalResult = evaluateHand(cards);
+      const score = evalResult.score;
+      const seat = seatEls[i];
+      const actionEl = seat.querySelector('[data-action]');
+
+      if (score <= 2 && Math.random() < 0.5) {
+        actionEl.textContent = 'フォールド';
+        log('CPU ' + i + ' はフォールド');
+        return 'fold';
+      }
+      const bet = 10;
+      takeFromPlayer(i, bet, 'コール/ベット');
+      log('CPU ' + i + ' は $' + bet + ' ベット');
+      playSfx(sfxBet);
+      return 'bet';
+    }
+
+    function openBoardIfNeeded() {
+      if (state.board.length === 0) {
+        // フロップ
+        state.board.push(state.deck.pop(), state.deck.pop(), state.deck.pop());
+        log('フロップが開きました');
+      } else if (state.board.length === 3) {
+        state.board.push(state.deck.pop());
+        log('ターンが開きました');
+      } else if (state.board.length === 4) {
+        state.board.push(state.deck.pop());
+        log('リバーが開きました');
+      }
+    }
+
+    function showdown() {
+      state.handOver = true;
+      // 全員のカードをオープン
+      renderTable();
+      const evals = state.hands.map((hand, i) => evaluateHand([...hand, ...state.board]));
+      const scores = evals.map(e => e.score);
+      const max = Math.max(...scores);
+      const winners = scores.map((s, i) => s === max ? i : -1).filter(i => i >= 0);
+      const share = Math.floor(state.pot / winners.length);
+      winners.forEach(i => {
+        state.stacks[i] += share;
+        seatEls[i].classList.add('winner');
+      });
+      const winnerNames = winners.map(i => i === 0 ? 'You' : 'CPU ' + i);
+      log('ショウダウン！勝者: ' + winnerNames.join(', '));
+      state.pot = 0;
+      renderTable();
+
+      // 勝利オーバーレイ（代表として最初の勝者の役名を表示）
+      const youWin = winners.includes(0);
+      const mainWinner = winners[0];
+      const handName = evals[mainWinner].name;
+
+      // テーブル中央の「○○ Win」バナー
+      if (tableWinEl) {
+        const bannerName = mainWinner === 0 ? 'You' : 'CPU ' + mainWinner;
+        tableWinEl.textContent = bannerName + ' WIN';
+        tableWinEl.classList.remove('show');
+        // 再アニメーションのために少し遅らせて付け直す
+        setTimeout(() => tableWinEl.classList.add('show'), 30);
+      }
+      if (isGameOver()) {
+        // このハンドで誰かのチップが尽きたらゲーム終了演出
+        handleGameOver();
+      } else {
+        if (youWin) {
+          resultTitleEl.textContent = 'You Win!';
+          resultSubEl.textContent = handName + ' でポットを獲得しました。';
+          playSfx(sfxWin);
+        } else {
+          resultTitleEl.textContent = 'You Lose';
+          resultSubEl.textContent = '勝者: ' + (mainWinner === 0 ? 'You' : 'CPU ' + mainWinner) + '（' + handName + '）';
+          playSfx(sfxLose);
+        }
+        resultOverlay.classList.add('show');
+      }
+    }
+
+    function nextTurn(playerAction) {
+      if (state.handOver || state.dealing) return;
+
+      const i = state.currentSeat;
+      if (i === 0) {
+        // あなたのアクション
+        const actionEl = seatEls[0].querySelector('[data-action]');
+        if (playerAction === 'fold') {
+          actionEl.textContent = 'フォールド';
+          log('You はフォールドしました');
+          state.handOver = true;
+          // ランダムなCPUにポットを渡す
+          const winner = 1 + Math.floor(Math.random()*3);
+          state.stacks[winner] += state.pot;
+          seatEls[winner].classList.add('winner');
+          state.pot = 0;
+          renderTable();
+          playSfx(sfxFold);
+          resultTitleEl.textContent = 'フォールド';
+          resultSubEl.textContent = 'このハンドは降りました。次のハンドでチャンスを狙いましょう。';
+          // チップが0になっていたらゲーム終了
+          if (isGameOver()) {
+            handleGameOver();
+          } else {
+            resultOverlay.classList.add('show');
+          }
+          return;
+        } else if (playerAction === 'call') {
+          const amount = 10;
+          takeFromPlayer(0, amount, 'コール');
+          log('You は $' + amount + ' コール');
+          playSfx(sfxCall);
+        } else if (playerAction === 'bet') {
+          const range = document.getElementById('bet-range');
+          const bet = parseInt(range.value, 10) || 10;
+          takeFromPlayer(0, bet, 'ベット');
+          log('You は $' + bet + ' ベット');
+          playSfx(sfxBet);
+        }
+      } else {
+        // CPU の自動アクション
+        cpuAction(i);
+      }
+
+      // 次へ
+      state.currentSeat = (state.currentSeat + 1) % 4;
+
+      // 1周したらボードをめくる or ショウダウン
+      if (state.currentSeat === 0) {
+        if (state.board.length < 5) {
+          openBoardIfNeeded();
+        } else {
+          showdown();
+          return;
+        }
+      }
+
+      renderTable();
+
+      // CPU の番が続く場合は自動で進める
+      if (!state.handOver && state.currentSeat !== 0) {
+        setTimeout(() => nextTurn('auto'), 800);
+      }
+    }
+
+    // イベント
+    document.getElementById('btn-next-hand').addEventListener('click', () => {
+      resultOverlay.classList.remove('show');
+      startNewHand();
+    });
+    btnFold.addEventListener('click', () => nextTurn('fold'));
+    btnCall.addEventListener('click', () => nextTurn('call'));
+    btnBet.addEventListener('click', () => nextTurn('bet'));
+
+    const betRange = document.getElementById('bet-range');
+    const betLabel = document.getElementById('bet-label');
+    betRange.addEventListener('input', () => {
+      betLabel.textContent = '$' + betRange.value;
+    });
+
+    document.getElementById('result-next').addEventListener('click', () => {
+      resultOverlay.classList.remove('show');
+      startNewHand();
+    });
+
+    // 初期描画
+    renderTable();
+    // ハンド開始前はアクションボタンを無効化しつつ、最初のハンドは自動でスタート
+    setActionButtonsEnabled(false);
+    startNewHand();
+  </script>
+</body>
+</html>

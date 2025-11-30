@@ -1,68 +1,137 @@
-<h1>(Geekpoker)</h1>
-<h3>新規poker</h3>
 <%= form_for @chase do |f| %>
 
+<div class="jj">
 
-
-
-  <div class="field">
-    <%= f.label :ace %>
+<div class="ai">
+  <div class="field1">
+    <%= f.label :SB %>
     <%= f.select :ace, 
-    ["カード1"], 
-    include_blank: "選択して下さい" %>
+   [["自分", "自分"], 
+    ["相手参加", "相手参加"], 
+    ["相手不参加", "相手不参加"]], include_blank: "選択して下さい" %>
   </div>
 
-  <div class="field">
-  <%= f.label :king %>
-  <%= f.select :king, 
-  ["カード2"], 
-  include_blank: "選択して下さい" %>
-</div>
-
-  <div class="field">
-    <%= f.label :項目名  %>
-    <%= f.number_field :queen, :size => 10 %>
+  <div class="field3">
+    <%= f.label :BB %>
+    <%= f.select :five,
+    [["自分", "自分"], 
+     ["相手参加", "相手参加"], 
+     ["相手不参加", "相手不参加"]], include_blank: "選択して下さい" %>
   </div>
 
-  <div class="field">
-  <%= f.label :項目名  %>
-  <%= f.number_field :jack, :size => 10 %>
+  <div class="field4">
+    <%= f.label :UTG %>
+    <%= f.select :four, 
+    [["自分", "自分"], 
+     ["相手参加", "相手参加"], 
+     ["相手不参加", "相手不参加"]], include_blank: "選択して下さい" %>
+  </div>
+</div>
+  
+<div class="bi">
+  <div class="field2">
+    <%= f.label :BTN %>
+    <%= f.select :king, 
+    [["自分", "自分"], 
+     ["相手参加", "相手参加"], 
+     ["相手不参加", "相手不参加"]], include_blank: "選択して下さい" %>
+  </div>
+
+  <div class="field8d">
+    <div class="kk">
+      <div class="field15">
+        <%= f.text_area :aa, :size => "2x4" %><br>
+        <%= f.label :カード1 %>
+      </div>
+      
+      <div class="field15">
+        <%= f.text_area :bb, :size => "2x4" %><br>
+        <%= f.label :カード2 %>
+      </div>
+
+      <div class="field15">
+        <%= f.text_area :cc, :size => "2x4" %><br>
+        <%= f.label :カード3 %>
+      </div>
+
+      <div class="field15">
+        <%= f.text_area :dd, :size => "2x4" %><br>
+        <%= f.label :カード4 %>
+      </div>
+
+      <div class="field15">
+        <%= f.text_area :ee, :size => "2x4" %><br>
+        <%= f.label :カード5 %>
+      </div>
+    </div>
+
+    <div class="k893">
+      <%= f.number_field :queen, :size => 10 %><br>
+      <%= f.label :ポット額BB, class: "koki" %>
+    </div>
+  </div>
+
+  <div class="field5">
+    <%= f.label :LJ %>
+    <%= f.select :three, 
+    [["自分", "自分"], 
+     ["相手参加", "相手参加"], 
+     ["相手不参加", "相手不参加"]], include_blank: "選択して下さい" %>
+  </div>
 </div>
 
-<div class="field">
-<%= f.label :項目名  %>
-<%= f.number_field :ten, :size => 10 %>
+<div class="ci">
+  <div class="field6">
+    <%= f.label :HJ %>
+    <%= f.select :two, 
+    [["自分", "自分"], 
+     ["相手参加", "相手参加"], 
+     ["相手不参加", "相手不参加"]], include_blank: "選択して下さい" %>
+  </div>
+
+  <div class="field7">
+    <%= f.label :CO %>
+    <%= f.select :one, 
+    [["自分", "自分"], 
+     ["相手参加", "相手参加"], 
+     ["相手不参加", "相手不参加"]], include_blank: "選択して下さい" %>
+  </div>
 </div>
 
-<div class="field">
-<%= f.label :項目名  %>
-<%= f.number_field :nine, :size => 10 %>
-</div>
+</div>  
 
-<div class="field">
-<%= f.label :項目名  %>
-<%= f.number_field :eight, :size => 10 %>
-</div>
+<div class="ki">
+  <div class="field12">
+    <%= f.label :アンティ %>
+    <%= f.number_field :six, :size => 10 %>
+  </div>
 
-<div class="field">
-<%= f.label :項目名  %>
-<%= f.number_field :seven, :size => 10 %>
-</div>
+  <div class="field13">
+    <%= f.label :SB %>
+    <%= f.number_field :jack, :size => 10 %>
+  </div>
 
-<div class="field">
-<%= f.label :項目名  %>
-<%= f.number_field :six, :size => 10 %>
-</div>
+  <div class="field14">
+    <%= f.label :Blind %>
+    <%= f.number_field :ten, :size => 10 %>
+  </div>
 
-  <div class="field">
-    <%= f.label :body %>
+  <div class="field9">
+    <%= f.label :BET %>
+    <%= f.number_field :nine, :size => 10 %>
+  </div>
+
+  <div class="field10">
+    <%= f.label :RAISE %>
+    <%= f.number_field :eight, :size => 10 %>
+  </div>
+
+  <div class="field15">
+    <%= f.label :質問 %>
     <%= f.text_area :body, :size => "30x2" %>
   </div>
 
+  <%= f.submit "質問する" %>
+</div>
 
-
-
-  <%= f.submit "送信する" %>
 <% end %>
-
-<%= link_to "ホームに戻る", chases_path %>

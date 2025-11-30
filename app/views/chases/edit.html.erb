@@ -1,5 +1,116 @@
 <%= form_for @chase do |f| %>
-    <%= f.label :body %>
+    <%= f.label :質問 %>
     <%= f.text_field :body, :size => 140 %> 
-    <%= f.submit "編集する" %>
+    <div class="field">
+    <%= f.label :プレイヤー１%>
+    <%= f.select :ace, 
+    [["BTN", "BTN"], 
+    ["SB", "SB"], 
+    ["BB", "BB"],
+    ["UTG", "UTG"], 
+    ["UTG1", "UTG1"], 
+    ["LJ", "LJ"],
+    ["co", "co"]], include_blank: "選択して下さい" %>
+  </div>
+  <div class="field">
+  <%= f.label :プレイヤー２%>
+  <%= f.select :king, 
+  [["BTN", "BTN"], 
+    ["SB", "SB"], 
+    ["BB", "BB"],
+    ["UTG", "UTG"], 
+    ["UTG1", "UTG1"], 
+    ["LJ", "LJ"],
+    ["co", "co"]], include_blank: "選択して下さい" %>
+
+<div class="field">
+<%= f.label :プレイヤー３%>
+<%= f.select :five,
+  [["BTN", "BTN"], 
+    ["SB", "SB"], 
+    ["BB", "BB"],
+    ["UTG", "UTG"], 
+    ["UTG1", "UTG1"], 
+    ["LJ", "LJ"],
+    ["co", "co"]], include_blank: "選択して下さい" %>
+
+<div class="field">
+<%= f.label :プレイヤー4%>
+<%= f.select :four, 
+  [["BTN", "BTN"], 
+    ["SB", "SB"], 
+    ["BB", "BB"],
+    ["UTG", "UTG"], 
+    ["UTG1", "UTG1"], 
+    ["LJ", "LJ"],
+    ["co", "co"]], include_blank: "選択して下さい" %>
+
+<div class="field">
+<%= f.label :プレイヤー5%>
+<%= f.select :three, 
+ [["BTN", "BTN"], 
+    ["SB", "SB"], 
+    ["BB", "BB"],
+    ["UTG", "UTG"], 
+    ["UTG1", "UTG1"], 
+    ["LJ", "LJ"],
+    ["co", "co"]], include_blank: "選択して下さい" %>
+
+<div class="field">
+<%= f.label :プレイヤー6%>
+<%= f.select :two, 
+  [["BTN", "BTN"], 
+    ["SB", "SB"], 
+    ["BB", "BB"],
+    ["UTG", "UTG"], 
+    ["UTG1", "UTG1"], 
+    ["LJ", "LJ"],
+    ["co", "co"]], include_blank: "選択して下さい" %>
+
+  <div class="field">
+  <%= f.label :プレイヤー7%>
+  <%= f.select :one, 
+   [["BTN", "BTN"], 
+    ["SB", "SB"], 
+    ["BB", "BB"],
+    ["UTG", "UTG"], 
+    ["UTG1", "UTG1"], 
+    ["LJ", "LJ"],
+    ["co", "co"]], include_blank: "選択して下さい" %>
+
+  <div class="field">
+    <%= f.label :ポット額BB %>
+    <%= f.number_field :queen, :size => 10 %>
+  </div>
+
+  <div class="field">
+<%= f.label :アンティ %>
+<%= f.number_field :six, :size => 10 %>
+</div>
+
+  <div class="field">
+  <%= f.label :SB%>
+  <%= f.number_field :jack, :size => 10 %>
+</div>
+
+<div class="field">
+<%= f.label :BB%>
+<%= f.number_field :ten, :size => 10 %>
+</div>
+
+<div class="field">
+<%= f.label :BET%>
+<%= f.number_field :nine, :size => 10 %>
+</div>
+
+<div class="field">
+<%= f.label :RAISE%>
+<%= f.number_field :eight, :size => 10 %>
+</div>
+
+<div class="field">
+<%= f.label :ALLIN%>
+<%= f.number_field :seven, :size => 10 %>
+</div>
+    <%= f.submit "編集する"%>
      <% end %>

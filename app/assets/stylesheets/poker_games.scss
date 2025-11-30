@@ -1,0 +1,521 @@
+// ポーカーゲームのスタイル
+
+.poker-game-new {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 40px;
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
+  border-radius: 20px;
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+}
+
+.game-setup-container {
+  text-align: center;
+  
+  h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #ffd700;
+  }
+  
+  .game-description {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #e8e8e8;
+    margin-bottom: 30px;
+  }
+}
+
+.game-start-form {
+  margin: 30px 0;
+}
+
+.start-game-btn {
+  padding: 20px 60px;
+  font-size: 24px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  color: #1a1a2e;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+  
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 30px rgba(255, 215, 0, 0.6);
+  }
+}
+
+.game-rules {
+  margin-top: 40px;
+  padding: 30px;
+  background: rgba(255, 215, 0, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  text-align: left;
+  
+  h3 {
+    color: #ffd700;
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    
+    li {
+      color: #e8e8e8;
+      padding: 10px 0;
+      padding-left: 30px;
+      position: relative;
+      font-size: 16px;
+      line-height: 1.6;
+      
+      &::before {
+        content: '🎴';
+        position: absolute;
+        left: 0;
+      }
+    }
+  }
+}
+
+// ゲーム画面
+.poker-game-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.game-header {
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
+  border-radius: 15px;
+  padding: 25px;
+  margin-bottom: 30px;
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  
+  h1 {
+    text-align: center;
+    color: #ffd700;
+    margin-bottom: 20px;
+    font-size: 32px;
+  }
+}
+
+.game-info {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px 25px;
+  background: rgba(255, 215, 0, 0.05);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  
+  .label {
+    color: rgba(232, 232, 232, 0.7);
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  
+  .value {
+    color: #ffd700;
+    font-size: 20px;
+    font-weight: 700;
+  }
+}
+
+.poker-table-wrapper {
+  margin: 40px 0;
+}
+
+.poker-table {
+  background: linear-gradient(135deg, #0d4f0d 0%, #1a7a1a 100%);
+  border-radius: 50%;
+  width: 100%;
+  max-width: 900px;
+  height: 600px;
+  margin: 0 auto;
+  position: relative;
+  border: 8px solid #8b4513;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), inset 0 0 100px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 40px;
+}
+
+.player-seat {
+  position: absolute;
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
+  border: 2px solid rgba(255, 215, 0, 0.5);
+  border-radius: 12px;
+  padding: 15px;
+  min-width: 180px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  
+  &.ai-seat {
+    &[data-position="1"] {
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    &[data-position="2"] {
+      top: 50%;
+      left: 20px;
+      transform: translateY(-50%);
+    }
+    &[data-position="3"] {
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+    }
+  }
+  
+  &.human-seat {
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.player-info {
+  margin-bottom: 10px;
+  
+  .player-name {
+    color: #ffd700;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .player-chips, .player-bet {
+    color: #e8e8e8;
+    font-size: 14px;
+    margin: 3px 0;
+  }
+}
+
+.player-cards {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.card {
+  width: 60px;
+  height: 84px;
+  background: white;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  font-weight: 700;
+  
+  .card-suit {
+    font-size: 24px;
+    line-height: 1;
+  }
+  
+  .card-rank {
+    font-size: 18px;
+    margin-top: 5px;
+  }
+  
+  &.red {
+    color: #d32f2f;
+  }
+  
+  &.black {
+    color: #1a1a2e;
+  }
+}
+
+.card-back {
+  width: 60px;
+  height: 84px;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ffd700;
+  font-size: 40px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.folded-indicator {
+  color: #f44336;
+  font-weight: 700;
+  padding: 10px;
+  background: rgba(244, 67, 54, 0.1);
+  border-radius: 6px;
+  border: 1px solid rgba(244, 67, 54, 0.3);
+}
+
+.current-player-indicator {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ffd700;
+  font-weight: 700;
+  font-size: 14px;
+  white-space: nowrap;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.community-cards {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 10;
+  
+  h3 {
+    color: #ffd700;
+    margin-bottom: 15px;
+    font-size: 18px;
+  }
+}
+
+.cards-display {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.no-cards {
+  color: rgba(232, 232, 232, 0.5);
+  font-size: 14px;
+  padding: 20px;
+}
+
+.action-panel {
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 30px 0;
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  text-align: center;
+  
+  h3 {
+    color: #ffd700;
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.action-btn {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &.check-btn {
+    background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+    color: white;
+  }
+  
+  &.call-btn {
+    background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+    color: white;
+  }
+  
+  &.fold-btn {
+    background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+    color: white;
+  }
+  
+  &.bet-btn {
+    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+    color: white;
+  }
+  
+  &.allin-btn {
+    background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%);
+    color: white;
+  }
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.bet-raise-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+  justify-content: center;
+  
+  label {
+    color: #e8e8e8;
+    font-weight: 500;
+  }
+}
+
+.bet-form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.bet-amount-input {
+  padding: 8px 12px;
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  border-radius: 6px;
+  background: rgba(26, 26, 46, 0.8);
+  color: #e8e8e8;
+  font-size: 16px;
+  width: 120px;
+  
+  &:focus {
+    outline: none;
+    border-color: #ffd700;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+  }
+}
+
+.folded-message, .waiting-message {
+  color: rgba(232, 232, 232, 0.7);
+  font-size: 18px;
+  padding: 20px;
+}
+
+.game-actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.new-game-btn, .back-to-top-btn {
+  padding: 12px 30px;
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  color: #1a1a2e;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-block;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+  }
+}
+
+.back-to-top-btn {
+  background: rgba(26, 26, 46, 0.8);
+  color: #ffd700;
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  
+  &:hover {
+    background: rgba(255, 215, 0, 0.1);
+    border-color: rgba(255, 215, 0, 0.6);
+  }
+}
+
+.game-result {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.2) 0%, rgba(56, 142, 60, 0.2) 100%);
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 30px;
+  border: 3px solid rgba(76, 175, 80, 0.5);
+  text-align: center;
+  backdrop-filter: blur(10px);
+  
+  h1 {
+    color: #4caf50;
+    font-size: 42px;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.winner-announcement {
+  h2 {
+    color: #ffd700;
+    font-size: 32px;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  
+  p {
+    color: #e8e8e8;
+    font-size: 20px;
+  }
+}
+
+.game-finished-message {
+  color: rgba(232, 232, 232, 0.7);
+  font-size: 18px;
+  padding: 20px;
+  background: rgba(244, 67, 54, 0.1);
+  border-radius: 10px;
+  border: 1px solid rgba(244, 67, 54, 0.3);
+}
+
+// レスポンシブ対応
+@media (max-width: 768px) {
+  .poker-table {
+    height: 500px;
+    max-width: 100%;
+  }
+  
+  .player-seat {
+    min-width: 140px;
+    padding: 10px;
+    font-size: 12px;
+  }
+  
+  .card, .card-back {
+    width: 45px;
+    height: 63px;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    
+    .action-btn {
+      width: 100%;
+    }
+  }
+}
+
