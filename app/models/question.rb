@@ -33,3 +33,4 @@ class Question < ApplicationRecord
   def set_default_views_count
     self.views_count ||= 0
   end
+end
