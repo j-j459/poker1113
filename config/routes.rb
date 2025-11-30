@@ -54,4 +54,5 @@ Rails.application.routes.draw do
   end
 get '/sounds/:filename', to: 'sounds#show'
 get 'play', to: 'pages#play'
+
 end
