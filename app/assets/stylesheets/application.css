@@ -315,7 +315,6 @@ h2 {
   background: linear-gradient(135deg, #ffed4e 0%, #ffd700 100%);
 }
 
-/* トップページの改善 */
 .top-hero {
   text-align: center;
   padding: 60px 20px;
@@ -420,13 +419,310 @@ h2 {
   }
 }
 
+/* -----------------------------------------------------------
+   ここから下をすべてコピーして貼り付けてください
+   （&:hover を使わない、安全な書き方です）
+----------------------------------------------------------- */
+
 .logout-btn {
   background: rgba(244, 67, 54, 0.2) !important;
   border: 1px solid rgba(244, 67, 54, 0.5) !important;
   color: #f44336 !important;
-  
-  &:hover {
-    background: rgba(244, 67, 54, 0.3) !important;
-    border-color: rgba(244, 67, 54, 0.7) !important;
+}
+
+/* ↓ここを変えました。&:hover ではなく .logout-btn:hover にします */
+.logout-btn:hover {
+  background: rgba(244, 67, 54, 0.3) !important;
+  border-color: rgba(244, 67, 54, 0.7) !important;
+}
+
+
+/* --- 動画エリアの設定 --- */
+.video-block {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.video-container {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  margin: 1rem 0;
+}
+
+.video-thumbnail {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.video-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  display: block;
+}
+
+.video-thumbnail:hover img {
+  transform: scale(1.05);
+}
+
+.play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 64px;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.play-button i {
+  color: #ff0000;
+  font-size: 24px;
+  margin-left: 4px;
+}
+
+.video-thumbnail:hover .play-button {
+  background: #ffffff;
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.video-thumbnail h3 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+  color: #fff;
+  padding: 40px 16px 16px;
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-align: center;
+  z-index: 1;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  /* Game Styles */
+.game-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  color: #fff;
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
+.game-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.game-info {
+  display: flex;
+  justify-content: space-around;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 15px;
+  border-radius: 10px;
+  margin: 15px 0;
+}
+
+.game-area {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.dealer-area, .player-area {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.cards {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+  min-height: 150px;
+  align-items: center;
+}
+
+.card {
+  width: 100px;
+  height: 140px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  position: relative;
+  transform-style: preserve-3d;
+  transition: all 0.5s ease;
+  background: white;
+  color: #333;
+}
+
+.card.hidden {
+  background: #0a5c36;
+  color: transparent;
+}
+
+.card.hidden::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.1),
+    rgba(0, 0, 0, 0.1) 10px,
+    rgba(0, 0, 0, 0.2) 10px,
+    rgba(0, 0, 0, 0.2) 20px
+  );
+  border-radius: 8px;
+}
+
+.card.hearts, .card.diamonds {
+  color: #e74c3c;
+}
+
+.card-value {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.suit {
+  font-size: 2em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.controls, .bet-controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: #e74c3c;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #c0392b;
+  transform: translateY(-2px);
+}
+
+.btn-action {
+  background: #3498db;
+  color: white;
+}
+
+.btn-action:hover:not(:disabled) {
+  background: #2980b9;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: #2ecc71;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #27ae60;
+  transform: translateY(-2px);
+}
+
+.btn-chip {
+  background: #f39c12;
+  color: white;
+}
+
+.btn-chip:hover:not(:disabled) {
+  background: #d35400;
+  transform: translateY(-2px);
+}
+
+.btn-warning {
+  background: #e67e22;
+  color: white;
+}
+
+/* Animations */
+@keyframes dealCard {
+  0% { transform: translateY(-50px) rotate(-10deg); opacity: 0; }
+  100% { transform: translateY(0) rotate(0); opacity: 1; }
+}
+
+@keyframes flipCard {
+  0% { transform: rotateY(0); }
+  50% { transform: rotateY(90deg); }
+  100% { transform: rotateY(0); }
+}
+
+.card {
+  animation: dealCard 0.5s ease-out;
+}
+
+.card.flip {
+  animation: flipCard 0.6s ease-in-out;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .cards {
+    flex-wrap: wrap;
   }
+  
+  .card {
+    width: 80px;
+    height: 112px;
+    font-size: 0.8em;
+  }
+  
+  .controls, .bet-controls {
+    flex-wrap: wrap;
+  }
+  
+  .btn {
+    padding: 8px 12px;
+    font-size: 0.9em;
+  }
+}
 }

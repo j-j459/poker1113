@@ -64,6 +64,100 @@
     .video-label i { color:#38bdf8; }
     .video-frame { position:relative; padding-top:56.25%; border-radius:14px; overflow:hidden; background:#020617; }
     .video-frame iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+    /* --- 動画ブロックの外枠 --- */
+    .video-block { 
+      margin-top: 20px; 
+      padding: 15px 15px 20px; 
+      border-radius: 16px; 
+      background: radial-gradient(circle at top, rgba(56,189,248,0.12), rgba(15,23,42,0.98)); 
+      border: 1px solid rgba(59,130,246,0.6); 
+    }
+    
+    .video-block h2 {
+      font-size: 16px;
+      margin-bottom: 15px;
+      text-align: center;
+      color: #38bdf8;
+    }
+
+    /* --- 動画サムネイルの設定（ここが重要！） --- */
+    .video-container {
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+      aspect-ratio: 16 / 9; /* 比率を固定 */
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .video-thumbnail {
+      display: block;
+      width: 100%;
+      height: 100%;
+      text-decoration: none;
+      position: relative;
+    }
+
+    .video-thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .video-thumbnail:hover img {
+      transform: scale(1.05);
+    }
+
+    /* 再生ボタン */
+    .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      z-index: 2;
+      transition: all 0.3s ease;
+    }
+
+    .play-button i {
+      color: #ef4444;
+      font-size: 24px;
+      margin-left: 4px;
+    }
+
+    .video-thumbnail:hover .play-button {
+      background: #fff;
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    /* タイトル文字 */
+    .video-thumbnail h3 {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+      color: #fff;
+      margin: 0;
+      padding: 40px 15px 15px;
+      font-size: 14px;
+      font-weight: 700;
+      text-align: center;
+      z-index: 1;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+    }
   </style>
 </head>
 <body>
@@ -228,14 +322,12 @@
         </div>
       </div>
 
-      <div class="video-block">
-        <div class="video-label"><i class="fas fa-play-circle"></i><span>映像で役の強さをざっくり確認する</span></div>
-        <div class="video-frame">
-          <!-- あとであなたの動画URLに差し替えられるようにダミーURLを入れておきます -->
-          <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Poker Hands" allowfullscreen></iframe>
+     <div class="video-container">
+      <a href="https://www.youtube.com/watch?v=jmw_aeVq3Tw" target="_blank" class="video-thumbnail">
+        <img src="https://img.youtube.com/vi/jmw_aeVq3Tw/hqdefault.jpg" alt="【ポーカー初心者必見！】役の説明">
+        <div class="play-button">
+          <i class="fas fa-play"></i>
         </div>
-      </div>
-    </section>
-  </div>
-</body>
-</html>
+        <h3>【初心者必見】ポーカーの役と強さを解説</h3>
+      </a>
+    </div>

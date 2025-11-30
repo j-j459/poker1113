@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ポーカーのルール｜GeekPoker</title>
+  <title>ポーカーのルール</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <style>
+    /* --- 基本設定 --- */
     :root {
       --bg-dark: #020617;
       --accent: #facc15;
@@ -22,6 +23,8 @@
     }
     a { color: inherit; text-decoration: none; }
     .page { max-width: 1100px; margin: 0 auto; padding: 16px 12px 40px; }
+    
+    /* --- ヘッダー --- */
     .header {
       display: flex; align-items: center; justify-content: space-between;
       padding: 10px 16px; border-radius: 999px;
@@ -37,6 +40,7 @@
     .nav a:hover { border-color: rgba(148,163,184,0.7); color: var(--text-main); }
     .nav a.nav-primary { background: var(--accent); color: #111827; font-weight: 700; border-color: transparent; }
 
+    /* --- ヒーローセクション --- */
     .hero {
       margin-bottom: 28px;
       padding: 18px 20px 20px;
@@ -49,9 +53,12 @@
     .hero-title span { color: var(--accent); }
     .hero-lead { font-size: 13px; color: var(--text-muted); }
 
+    /* --- セクション共通 --- */
     .section { margin-top: 28px; padding: 18px 20px 20px; border-radius: 20px; background: rgba(15,23,42,0.96); border:1px solid rgba(148,163,184,0.5); box-shadow:0 16px 40px rgba(15,23,42,0.9); font-size:13px; }
     .section-title { font-size: 15px; margin-bottom: 8px; display:flex; align-items:center; gap:6px; }
     .section-title i { color: var(--accent); }
+    
+    /* --- フローリスト --- */
     .flow-list { list-style:none; margin-top: 6px; }
     .flow-item { display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px dashed rgba(31,41,55,0.8); }
     .flow-step { width:22px; height:22px; border-radius:999px; background:rgba(15,23,42,0.9); border:1px solid rgba(148,163,184,0.8); display:flex; align-items:center; justify-content:center; font-size:11px; color:var(--accent); margin-top:2px; }
@@ -59,11 +66,103 @@
     .flow-main-title { font-weight:600; margin-bottom:2px; }
     .flow-main-text { font-size:12px; color:var(--text-muted); }
 
-    .video-block { margin-top: 10px; padding: 10px 12px; border-radius: 16px; background: radial-gradient(circle at top, rgba(56,189,248,0.12), rgba(15,23,42,0.98)); border:1px solid rgba(59,130,246,0.6); }
-    .video-label { font-size:12px; margin-bottom:4px; display:flex; align-items:center; gap:6px; }
-    .video-label i { color:#38bdf8; }
-    .video-frame { position:relative; padding-top:56.25%; border-radius:14px; overflow:hidden; background:#020617; }
-    .video-frame iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+    /* =========================================
+       ★ここが最強の修正ポイント（動画エリア）★
+       HTML内に直接書くことで強制適用させます
+       ========================================= */
+    .video-block { 
+      margin-top: 20px; 
+      padding: 15px 15px 20px; 
+      border-radius: 16px; 
+      background: radial-gradient(circle at top, rgba(56,189,248,0.12), rgba(15,23,42,0.98)); 
+      border: 1px solid rgba(59,130,246,0.6); 
+    }
+    
+    .video-block h2 {
+      font-size: 16px;
+      margin-bottom: 15px;
+      text-align: center;
+      color: #38bdf8;
+    }
+
+    /* 画像のサイズを強制的に16:9にする設定 */
+    .video-container {
+      width: 100%;
+      max-width: 700px;     /* PCでデカすぎないように制限 */
+      margin: 0 auto;       /* 真ん中に寄せる */
+      aspect-ratio: 16 / 9; /* ★比率を固定！ */
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .video-thumbnail {
+      display: block;
+      width: 100%;
+      height: 100%;
+      text-decoration: none;
+      position: relative;
+    }
+
+    .video-thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* 枠いっぱいに綺麗に埋める */
+      transition: transform 0.3s ease;
+    }
+
+    .video-thumbnail:hover img {
+      transform: scale(1.05);
+    }
+
+    /* 再生ボタンのデザイン */
+    .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      z-index: 2;
+      transition: all 0.3s ease;
+    }
+
+    .play-button i {
+      color: #ef4444; /* YouTubeレッド */
+      font-size: 24px;
+      margin-left: 4px;
+    }
+
+    .video-thumbnail:hover .play-button {
+      background: #fff;
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    /* 画像の上の文字 */
+    .video-thumbnail h3 {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+      color: #fff;
+      margin: 0;
+      padding: 40px 15px 15px;
+      font-size: 14px;
+      font-weight: 700;
+      text-align: center;
+      z-index: 1;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+    }
   </style>
 </head>
 <body>
@@ -123,14 +222,15 @@
         </li>
       </ul>
 
-      <div class="video-block">
-        <div class="video-label"><i class="fas fa-play-circle"></i><span>映像でテキサスホールデムの流れを確認する</span></div>
-        <div class="video-frame">
-          <!-- あとであなたの動画URLに差し替えられるようにダミーURLを入れておきます -->
-          <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Texas Hold'em Flow" allowfullscreen></iframe>
-        </div>
+<div class="video-block">
+      <h2>動画で学ぶポーカーのルール</h2>
+      <div class="video-container">
+        <a href="https://youtu.be/tGoA4OWzzAk?si=dIDYKrz0wBfDSHt-" target="_blank" class="video-thumbnail">
+          <img src="https://img.youtube.com/vi/tGoA4OWzzAk/maxresdefault.jpg" alt="【完全版】テキサスホールデムポーカーのルール解説">
+          <div class="play-button">
+            <i class="fas fa-play"></i>
+          </div>
+          <h3>【完全版】テキサスホールデムポーカーのルール解説</h3>
+        </a>
       </div>
-    </section>
-  </div>
-</body>
-</html>
+    </div>
