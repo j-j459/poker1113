@@ -16,3 +16,4 @@ class QuestionTag < ApplicationRecord
   def decrement_tag_questions_count
     tag.decrement!(:questions_count) if tag.respond_to?(:questions_count) && tag.questions_count.positive?
   end
+end
